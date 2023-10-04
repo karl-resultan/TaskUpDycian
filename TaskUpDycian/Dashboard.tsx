@@ -31,7 +31,7 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
     return (
     <LinearGradient colors={['#02F5A5', '#01DBF1']} style={loginStyles.linearGradient}>
       <View style={loginStyles.mainContainer}>
-        <Text>Hi</Text>
+        <Text>Dashboard Sample</Text>
       </View>
     </LinearGradient>
     );
