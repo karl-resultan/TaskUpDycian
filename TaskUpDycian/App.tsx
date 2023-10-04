@@ -27,6 +27,9 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Login from './Login';
 import Register from './Register';
+import Welcome from './Welcome';
+import BasePage from './BasePage';
+import Dashboard from './Dashboard';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
@@ -42,10 +45,22 @@ import {
 function App(): JSX.Element {
   return(
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false}}>
+        <Stack.Screen
+            name="Welcome"
+            component={Welcome}
+        />
+        <Stack.Screen
+            name="BasePage"
+            component={BasePage}
+        />
         <Stack.Screen
           name="Login"
           component={Login}
+        />
+        <Stack.Screen
+          name="Dashboard"
+          component={Dashboard}
         />
         <Stack.Screen name="Register" component={Register} />
       </Stack.Navigator>

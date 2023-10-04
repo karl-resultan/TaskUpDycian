@@ -20,46 +20,18 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import PageBottom from './PageBottom';
 
-function Login({navigation}: {navigation: any}): JSX.Element {
-  const [studentID, setStudentID] = React.useState('');
-  const [password, setPassword] = React.useState('');
+function Dashboard({navigation}: {navigation: any}): JSX.Element {
+    const [studentID, setStudentID] = React.useState('');
+    const [password, setPassword] = React.useState('');
 
-  function userLogin(){
-      if (studentID != '' && password != ''){
-        navigation.navigate('Dashboard');
-        setStudentID('');
-        setPassword('');
-      }
-  }
+    function login(){
+        navigation.navigate('')
+    }
 
-  return (
-  <LinearGradient colors={['#02F5A5', '#01DBF1']} style={loginStyles.linearGradient}>
-    <View style={loginStyles.mainContainer}>
-      <View style={loginStyles.content}>
-      <Text style={loginStyles.pageTitle}>Task-UP Dycian</Text>
-
-      <View style={{width: '80%'}}>
-          <Text style={loginStyles.inputFieldHeaders}>Student ID</Text>
-          <TextInput defaultValue={studentID} onChangeText={studentID => setStudentID(studentID)} style={loginStyles.inputField} placeholder='Enter your Student ID...'/>
-      </View>
-
-      <View style={{width: '80%'}}>
-          <Text style={loginStyles.inputFieldHeaders}>Password</Text>
-          <TextInput defaultValue={password} onChangeText={password => setPassword(password)} style={loginStyles.inputField} secureTextEntry={true} placeholder='Enter your password...'/>
-          <Text>Forgot Password?</Text>
-      </View>
-
-        <View style={{width: '80%'}}>
-            <Pressable style={loginStyles.loginButton}>
-            <Text style={loginStyles.loginButtonText} onPress={() => userLogin()}>LOGIN</Text>
-            </Pressable>
-            <View>
-            <Text style={loginStyles.accountCreationCTA} onPress={() => navigation.navigate('Register')}>No account? Click here</Text>
-            </View>
-        </View>
-
-        <PageBottom></PageBottom>
-        </View>
+    return (
+    <LinearGradient colors={['#02F5A5', '#01DBF1']} style={loginStyles.linearGradient}>
+      <View style={loginStyles.mainContainer}>
+        <Text>Hi</Text>
       </View>
     </LinearGradient>
     );
@@ -146,4 +118,4 @@ const loginStyles = StyleSheet.create({
     }
   });
 
-  export default Login;
+  export default Dashboard;
