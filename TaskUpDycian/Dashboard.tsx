@@ -19,13 +19,11 @@ import {
 
 
 import LinearGradient from 'react-native-linear-gradient';
-import PageBottom from './PageBottom';
-import Welcome from './Welcome';
 
 function Dashboard({navigation}: {navigation: any}): JSX.Element {
     return (
-    <LinearGradient colors={['#02F5A5', '#01DBF1']} style={loginStyles.linearGradient}>
-      <View style={loginStyles.mainContainer}>
+    <LinearGradient colors={['#02F5A5', '#01DBF1']} style={dashboardStyles.linearGradient}>
+      <View style={dashboardStyles.mainContainer}>
         <View>
         </View>
 
@@ -33,19 +31,19 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
           <Text style={{ alignSelf: 'flex-start', fontWeight: 'bold', fontSize: 20, color: '#FFFFFF' }}>ALL NOTES</Text>
         </View>
 
-        <View style={loginStyles.notesContainer}>
-          <TextInput style={loginStyles.searchNotes } placeholder='Search notes...'></TextInput>
-          <View style={loginStyles.note }>
+        <View style={dashboardStyles.notesContainer}>
+          <TextInput style={dashboardStyles.searchNotes } placeholder='Search notes...'></TextInput>
+          <View style={dashboardStyles.note }>
             <Text>Sample Note</Text>
           </View>
-          <View style={loginStyles.note }>
+          <View style={dashboardStyles.note }>
             <Text>Sample Note</Text>
           </View>
         </View>
 
         <View>
-          <Pressable style={ loginStyles.addNoteButton }>
-            <Text style={ loginStyles.addNoteButtonText }>+</Text>
+          <Pressable style={ dashboardStyles.addNoteButton }>
+            <Text style={ dashboardStyles.addNoteButtonText }>+</Text>
           </Pressable>
         </View>
       </View>
@@ -53,7 +51,7 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
     );
 }
 
-const loginStyles = StyleSheet.create({
+const dashboardStyles = StyleSheet.create({
     linearGradient: {
       flex: 1,
       paddingLeft: 15,
