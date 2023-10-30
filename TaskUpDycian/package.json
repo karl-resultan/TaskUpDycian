@@ -10,8 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@react-navigation/drawer": "^6.6.4",
-    "@react-navigation/native": "^6.1.8",
+    "@react-navigation/drawer": "^6.6.6",
+    "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.14",
     "link": "^2.0.0",
     "native-base": "^3.4.28",

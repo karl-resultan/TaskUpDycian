@@ -19,15 +19,21 @@ import {
 
 
 import LinearGradient from 'react-native-linear-gradient';
+import SideNavigation from './SideNavigation';
+import DashboardHeader from './DashboardHeader';
 
 function Dashboard({navigation}: {navigation: any}): JSX.Element {
+    function openSideNav(){
+
+    }
+
     return (
     <LinearGradient colors={['#02F5A5', '#01DBF1']} style={dashboardStyles.linearGradient}>
       <View style={dashboardStyles.mainContainer}>
-        <View>
-        </View>
-
-        <View style={{ marginBottom: '10%', marginTop: '10%' }}>
+        <DashboardHeader></DashboardHeader>
+        <SideNavigation></SideNavigation>
+        
+        <View style={{ marginBottom: '5%', marginTop: '5%' }}>
           <Text style={{ alignSelf: 'flex-start', fontWeight: 'bold', fontSize: 20, color: '#FFFFFF' }}>ALL NOTES</Text>
         </View>
 
@@ -77,7 +83,7 @@ const dashboardStyles = StyleSheet.create({
     notesContainer: {
       padding: 3,
       width: '90%',
-      height: '70%',
+      height: '65%',
       alignItems: 'center',
       backgroundColor: '#FFFFFF',
       borderRadius: 20

@@ -30,6 +30,8 @@ import Register from './Register';
 import Welcome from './Welcome';
 import BasePage from './BasePage';
 import Dashboard from './Dashboard';
+import SideNavigation from './SideNavigation';
+import Tasks from './Tasks';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
@@ -45,7 +47,7 @@ import {
 function App(): JSX.Element {
   return(
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false}}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen
             name="Welcome"
             component={Welcome}
@@ -63,6 +65,9 @@ function App(): JSX.Element {
           component={Dashboard}
         />
         <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Tasks" component={Tasks} />
+        <Stack.Screen name="SideNavigation" component={SideNavigation} />
+        {/* <Stack.Screen name="Dashboard" component={DrawerNavigator} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

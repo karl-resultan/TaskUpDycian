@@ -25,7 +25,6 @@ import {
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
-import BasePage from './BasePage';
 import {
   Colors,
   DebugInstructions,
