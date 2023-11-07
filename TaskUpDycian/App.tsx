@@ -48,26 +48,13 @@ function App(): JSX.Element {
   return(
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-            name="Welcome"
-            component={Welcome}
-        />
-        <Stack.Screen
-            name="BasePage"
-            component={BasePage}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-        />
-        <Stack.Screen
-          name="Dashboard"
-          component={Dashboard}
-        />
+        <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name="BasePage" component={BasePage} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Dashboard" component={Dashboard}/>
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Tasks" component={Tasks} />
         <Stack.Screen name="SideNavigation" component={SideNavigation} />
-        {/* <Stack.Screen name="Dashboard" component={DrawerNavigator} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   Button,
@@ -17,26 +18,35 @@ import {
   Pressable
 } from 'react-native';
 
+function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Element {
+    const [isViewVisible, setIsViewVisible] = useState(sharedState);
+    const containerDisplay = isViewVisible ? {'display': 'block'} : {'display': 'none'};
 
-function SideNavigation({navigation}: {navigation: any}): JSX.Element {
-    function accessTasks(){
-        navigation.navigate('Tasks');
+    function closeSideNav(){
+        setSharedState(false);
+        console.log('this is working');
     }
 
+    useEffect(() => {
+        // Listen for changes in the shared state and update the local state
+        setIsViewVisible(sharedState);
+        console.log('currently listening')
+      }, [sharedState]);
+
   return (
-    <View style={sideNavigationStyles.container}>
+    <View style={[sideNavigationStyles.container, containerDisplay]} key='container'>
         <View style={sideNavigationStyles.mainContainer}>
             <View style={sideNavigationStyles.menuContainer}>
                 <Text style={sideNavigationStyles.sideNavText}>MENU</Text>
             </View>
 
             <View style={{ marginTop: '10%', marginBottom: '10%' }}>
-                <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => accessTasks()}>
+                <Pressable style={sideNavigationStyles.sideNavLink}>
                     <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                     <Text>Task</Text>
                 </Pressable>
 
-                <Pressable style={[sideNavigationStyles.sideNavLink, sideNavigationStyles.taskSubCategories]}>
+                <Pressable style={[sideNavigationStyles.sideNavLink, sideNavigationStyles.taskSubCategories]} onPress={() => navigation.navigate('Tasks') }>
                     <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                     <Text>Activities</Text>
                 </Pressable>
@@ -83,7 +93,7 @@ function SideNavigation({navigation}: {navigation: any}): JSX.Element {
                 <Text>Settings</Text>
             </Pressable>
         </View>
-        <View style={sideNavigationStyles.darkBg}></View>
+        <Pressable style={sideNavigationStyles.darkBg} onPress={() => closeSideNav()}></Pressable>
     </View>
   );
 }
@@ -95,7 +105,8 @@ const sideNavigationStyles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         left: 0,
-        zIndex: 10
+        zIndex: 10,
+        display: 'none'
     },
 
     mainContainer: {

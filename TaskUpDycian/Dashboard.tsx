@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   Button,
@@ -23,15 +24,13 @@ import SideNavigation from './SideNavigation';
 import DashboardHeader from './DashboardHeader';
 
 function Dashboard({navigation}: {navigation: any}): JSX.Element {
-    function openSideNav(){
-
-    }
+    const [sharedState, setSharedState] = useState(false);
 
     return (
     <LinearGradient colors={['#02F5A5', '#01DBF1']} style={dashboardStyles.linearGradient}>
       <View style={dashboardStyles.mainContainer}>
-        <DashboardHeader></DashboardHeader>
-        <SideNavigation></SideNavigation>
+        <DashboardHeader sharedState={sharedState} setSharedState={setSharedState}></DashboardHeader>
+        <SideNavigation sharedState={sharedState} setSharedState={setSharedState} navigation={navigation}></SideNavigation>
         
         <View style={{ marginBottom: '5%', marginTop: '5%' }}>
           <Text style={{ alignSelf: 'flex-start', fontWeight: 'bold', fontSize: 20, color: '#FFFFFF' }}>ALL NOTES</Text>

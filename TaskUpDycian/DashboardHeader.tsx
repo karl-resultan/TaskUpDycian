@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   Button,
@@ -17,11 +18,16 @@ import {
   Pressable
 } from 'react-native';
 
-function DashboardHeader({navigation}: {navigation: any}): JSX.Element {
+function DashboardHeader({sharedState, setSharedState, navigation}: any): JSX.Element {
+    function updateSharedState(){
+        console.log('attempting to share state')
+        setSharedState(true);
+    }
+
     return (
         <View style={dashboardHeaderStyles.mainNavigation}>
-            <Pressable>
-            <Image style={[dashboardHeaderStyles.mainNavbarIcon, dashboardHeaderStyles.imageGap]} source={require('./assets/icons8-menu-48.png')} />
+            <Pressable onPress={() => updateSharedState()}>
+                <Image style={[dashboardHeaderStyles.mainNavbarIcon, dashboardHeaderStyles.imageGap]} source={require('./assets/icons8-menu-48.png')} />
             </Pressable>
             <View>
             <View></View>
@@ -29,14 +35,14 @@ function DashboardHeader({navigation}: {navigation: any}): JSX.Element {
             </View>
 
             <Pressable>
-            <Image style={[dashboardHeaderStyles.mainNavbarIcon, dashboardHeaderStyles.imageGap, dashboardHeaderStyles.mainNavbarRightIcons]} source={require('./assets/icons8-search-64.png')} />
+                <Image style={[dashboardHeaderStyles.mainNavbarIcon, dashboardHeaderStyles.imageGap, dashboardHeaderStyles.mainNavbarRightIcons]} source={require('./assets/icons8-search-64.png')} />
             </Pressable>
             <Pressable>
-            <Image style={[dashboardHeaderStyles.mainNavbarIcon, dashboardHeaderStyles.imageGap, dashboardHeaderStyles.mainNavbarRightIcons]} source={require('./assets/icons8-notification-32.png')} />
+                <Image style={[dashboardHeaderStyles.mainNavbarIcon, dashboardHeaderStyles.imageGap, dashboardHeaderStyles.mainNavbarRightIcons]} source={require('./assets/icons8-notification-32.png')} />
             </Pressable>
             <View></View>
             <Pressable>
-            <Image style={[dashboardHeaderStyles.mainNavbarIcon, dashboardHeaderStyles.imageGap, dashboardHeaderStyles.mainNavbarRightIcons]} source={require('./assets/icons8-arrow-down-48.png')} />
+                <Image style={[dashboardHeaderStyles.mainNavbarIcon, dashboardHeaderStyles.imageGap, dashboardHeaderStyles.mainNavbarRightIcons]} source={require('./assets/icons8-arrow-down-48.png')} />
             </Pressable>
         </View>
     );
