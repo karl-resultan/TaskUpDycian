@@ -24,68 +24,80 @@ function SideNavigation({navigation}: {navigation: any}): JSX.Element {
     }
 
   return (
-    <View style={sideNavigationStyles.mainContainer}>
-        <View style={sideNavigationStyles.menuContainer}>
-            <Text style={sideNavigationStyles.sideNavText}>MENU</Text>
+    <View style={sideNavigationStyles.container}>
+        <View style={sideNavigationStyles.mainContainer}>
+            <View style={sideNavigationStyles.menuContainer}>
+                <Text style={sideNavigationStyles.sideNavText}>MENU</Text>
+            </View>
+
+            <View style={{ marginTop: '10%', marginBottom: '10%' }}>
+                <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => accessTasks()}>
+                    <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                    <Text>Task</Text>
+                </Pressable>
+
+                <Pressable style={[sideNavigationStyles.sideNavLink, sideNavigationStyles.taskSubCategories]}>
+                    <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                    <Text>Activities</Text>
+                </Pressable>
+
+                <Pressable style={[sideNavigationStyles.sideNavLink, sideNavigationStyles.taskSubCategories]}>
+                    <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                    <Text>Exams</Text>
+                </Pressable>
+            </View>
+
+            {/* BOTTOM NAV LINKS */}
+            <Pressable style={sideNavigationStyles.sideNavLink}>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Text>Notes</Text>
+            </Pressable>
+
+            <Pressable style={sideNavigationStyles.sideNavLink}>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Text>Task Overview</Text>
+            </Pressable>
+
+            <Pressable style={sideNavigationStyles.sideNavLink}>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Text>Profile</Text>
+            </Pressable>
+
+            <Pressable style={sideNavigationStyles.sideNavLink}>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Text>Calendar</Text>
+            </Pressable>
+
+            <Pressable style={sideNavigationStyles.sideNavLink}>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Text>Feedback</Text>
+            </Pressable>
+
+            <Pressable style={sideNavigationStyles.sideNavLink}>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Text>FAQ</Text>
+            </Pressable>
+
+            <Pressable style={sideNavigationStyles.sideNavLink}>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Text>Settings</Text>
+            </Pressable>
         </View>
-
-        <View style={{ marginTop: '10%', marginBottom: '10%' }}>
-            <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => accessTasks()}>
-                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-                <Text>Task</Text>
-            </Pressable>
-
-            <Pressable style={[sideNavigationStyles.sideNavLink, sideNavigationStyles.taskSubCategories]}>
-                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-                <Text>Activities</Text>
-            </Pressable>
-
-            <Pressable style={[sideNavigationStyles.sideNavLink, sideNavigationStyles.taskSubCategories]}>
-                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-                <Text>Exams</Text>
-            </Pressable>
-        </View>
-
-        {/* BOTTOM NAV LINKS */}
-        <Pressable style={sideNavigationStyles.sideNavLink}>
-            <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-            <Text>Notes</Text>
-        </Pressable>
-
-        <Pressable style={sideNavigationStyles.sideNavLink}>
-            <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-            <Text>Task Overview</Text>
-        </Pressable>
-
-        <Pressable style={sideNavigationStyles.sideNavLink}>
-            <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-            <Text>Profile</Text>
-        </Pressable>
-
-        <Pressable style={sideNavigationStyles.sideNavLink}>
-            <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-            <Text>Calendar</Text>
-        </Pressable>
-
-        <Pressable style={sideNavigationStyles.sideNavLink}>
-            <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-            <Text>Feedback</Text>
-        </Pressable>
-
-        <Pressable style={sideNavigationStyles.sideNavLink}>
-            <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-            <Text>FAQ</Text>
-        </Pressable>
-
-        <Pressable style={sideNavigationStyles.sideNavLink}>
-            <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-            <Text>Settings</Text>
-        </Pressable>
+        <View style={sideNavigationStyles.darkBg}></View>
     </View>
   );
 }
 
 const sideNavigationStyles = StyleSheet.create({
+    container: {
+        height: '100%',
+        width: '100%',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 10
+    },
+
     mainContainer: {
         top: 0,
         left: -15,
@@ -93,7 +105,18 @@ const sideNavigationStyles = StyleSheet.create({
         backgroundColor: 'white',
         height: '100%',
         width: '60%',
-        zIndex: 3,
+        zIndex: 9,
+    },
+
+    darkBg: {
+        height: '100%',
+        width: '105%',
+        backgroundColor: 'black',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        opacity: .5,
+        zIndex: 8
     },
 
     menuContainer: {
