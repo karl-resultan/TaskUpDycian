@@ -32,6 +32,11 @@ import BasePage from './BasePage';
 import Dashboard from './Dashboard';
 import SideNavigation from './SideNavigation';
 import Tasks from './Tasks';
+import TaskOverview from './TaskOverview';
+import Profile from './Profile';
+import Settings from './Settings';
+import FAQ from './FAQ';
+import AboutUs from './AboutUs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
@@ -55,6 +60,11 @@ function App(): JSX.Element {
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Tasks" component={Tasks} />
         <Stack.Screen name="SideNavigation" component={SideNavigation} />
+        <Stack.Screen name="TaskOverview" component={TaskOverview} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="FAQ" component={FAQ} />
+        <Stack.Screen name="AboutUs" component={AboutUs} />
       </Stack.Navigator>
     </NavigationContainer>
   );

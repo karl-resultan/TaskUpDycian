@@ -18,6 +18,8 @@ import {
   Pressable
 } from 'react-native';
 
+import LinearGradient from 'react-native-linear-gradient';
+
 function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Element {
     const [isViewVisible, setIsViewVisible] = useState(sharedState);
     const containerDisplay = isViewVisible ? {'display': 'block'} : {'display': 'none'};
@@ -36,9 +38,11 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
   return (
     <View style={[sideNavigationStyles.container, containerDisplay]} key='container'>
         <View style={sideNavigationStyles.mainContainer}>
-            <View style={sideNavigationStyles.menuContainer}>
-                <Text style={sideNavigationStyles.sideNavText}>MENU</Text>
-            </View>
+            <LinearGradient colors={['#BFE39F', '#68B5F1']} style={sideNavigationStyles.linearGradient}>
+                <View style={sideNavigationStyles.menuContainer}>
+                    <Text style={sideNavigationStyles.sideNavText}>MENU</Text>
+                </View>
+            </LinearGradient>
 
             <View style={{ marginTop: '10%', marginBottom: '10%' }}>
                 <Pressable style={sideNavigationStyles.sideNavLink}>
@@ -63,12 +67,12 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
                 <Text>Notes</Text>
             </Pressable>
 
-            <Pressable style={sideNavigationStyles.sideNavLink}>
+            <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('TaskOverview')}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                 <Text>Task Overview</Text>
             </Pressable>
 
-            <Pressable style={sideNavigationStyles.sideNavLink}>
+            <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Profile')}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                 <Text>Profile</Text>
             </Pressable>
@@ -83,12 +87,12 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
                 <Text>Feedback</Text>
             </Pressable>
 
-            <Pressable style={sideNavigationStyles.sideNavLink}>
+            <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('FAQ')}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                 <Text>FAQ</Text>
             </Pressable>
 
-            <Pressable style={sideNavigationStyles.sideNavLink}>
+            <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Settings')}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                 <Text>Settings</Text>
             </Pressable>
@@ -109,6 +113,10 @@ const sideNavigationStyles = StyleSheet.create({
         display: 'none'
     },
 
+    linearGradient: {
+        height: '15%'
+    },
+
     mainContainer: {
         top: 0,
         left: -15,
@@ -121,7 +129,7 @@ const sideNavigationStyles = StyleSheet.create({
 
     darkBg: {
         height: '100%',
-        width: '105%',
+        width: '110%',
         backgroundColor: 'black',
         position: 'absolute',
         top: 0,
@@ -134,9 +142,8 @@ const sideNavigationStyles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center',
         alignItems: 'center',
-        height: '15%',
+        height: '100%',
         width: '100%',
-        backgroundColor: '#0E90D5'
     },
 
     sideNavText: {
