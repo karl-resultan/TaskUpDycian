@@ -77,7 +77,7 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
                 <Text>Profile</Text>
             </Pressable>
 
-            <Pressable style={sideNavigationStyles.sideNavLink}>
+            <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Calendar')}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                 <Text>Calendar</Text>
             </Pressable>

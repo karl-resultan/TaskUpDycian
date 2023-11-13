@@ -21,10 +21,19 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import SideNavigation from './SideNavigation';
 import DashboardHeader from './DashboardHeader';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 function Tasks({navigation}: {navigation: any}): JSX.Element {
   const [sharedState, setSharedState] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState( 'date');
+  const [show, setShow] = useState(false);
+  const [text, setText] = useState( 'Empty');
+
+  function openAddTaskSection(){
+
+  }
 
   return (
     <LinearGradient colors={['#02F5A5', '#01DBF1']} style={tasksStyles.linearGradient}>
@@ -62,11 +71,47 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
             <Text>No schedule for the day. Click + to create a task.</Text>
 
-            <Pressable>
+            <Pressable onPress={() => openAddTaskSection()}>
               <View style={tasksStyles.addTaskButton}>
                 <Text style={{fontWeight: 'bold', fontSize: 22}}>+</Text>
               </View>
             </Pressable>
+          </View>
+        </View>
+
+        <View style={tasksStyles.addTaskSection}>
+          <Text style={{ marginTop: '10%', marginBottom: '5%', fontWeight: 'bold' }}>Add Task</Text>
+
+          <TextInput 
+            multiline={true}
+            numberOfLines={5}
+            style={tasksStyles.taskSectionTextWall} 
+            placeholder='Enter task details...'>
+          </TextInput>
+
+          <View style={tasksStyles.addTaskSectionBottom}>
+            <View style={tasksStyles.bottomSectionElems}>
+              <Pressable>
+                <Text>Activities</Text>
+              </Pressable>
+              <Pressable>
+                <Text>Exams</Text>
+              </Pressable>
+            </View>
+
+            <DateTimePicker
+                testID='dateTimePicker'
+                value={date}
+                mode='date'
+                is24Hour={true}
+                display='default'
+            />
+
+            <Pressable style={tasksStyles.bottomSectionElems}>
+              <Image style={tasksStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+            </Pressable>
+            <Pressable style={tasksStyles.bottomSectionElems}><Text style={tasksStyles.addTaskSectionBottomText}>Cancel</Text></Pressable>
+            <Pressable style={tasksStyles.bottomSectionElems}><Text style={tasksStyles.addTaskSectionBottomText}>Done</Text></Pressable>
           </View>
         </View>
       </View>
@@ -119,6 +164,51 @@ const tasksStyles = StyleSheet.create({
       borderRadius: 150,
       backgroundColor: '#ADD6F5',
       alignItems: 'center'
+    },
+
+    addTaskSection: {
+      position: 'absolute',
+      alignSelf: 'center',
+      marginTop: '30%',
+      width: '90%',
+      height: '60%',
+      padding: '5%',
+      backgroundColor: '#F4F5DB',
+      alignItems: 'center',
+      borderRadius: 10,
+      shadowRadius: 5,
+      zIndex: 10,
+      elevation: 5,
+    },
+
+    taskSectionTextWall: {
+      height: '50%',
+      width: '100%',
+      backgroundColor: '#D9D9D9',
+      color: 'black'
+    },
+
+    icon: {
+      height: 30,
+      width: 30
+    },
+
+    addTaskSectionBottom: {
+      height: '30%',
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+
+    bottomSectionElems: {
+      margin: 10
+    },
+    
+    addTaskSectionBottomText: {
+      color: '#2397EC',
+      fontWeight: 'bold',
+      fontSize: 19
     }
 });
 

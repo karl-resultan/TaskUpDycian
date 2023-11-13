@@ -32,6 +32,7 @@ import BasePage from './BasePage';
 import Dashboard from './Dashboard';
 import SideNavigation from './SideNavigation';
 import Tasks from './Tasks';
+import Calendar from './Calendar';
 import TaskOverview from './TaskOverview';
 import Profile from './Profile';
 import Settings from './Settings';
@@ -49,6 +50,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+
 function App(): JSX.Element {
   return(
     <NavigationContainer>
@@ -59,6 +61,7 @@ function App(): JSX.Element {
         <Stack.Screen name="Dashboard" component={Dashboard}/>
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Tasks" component={Tasks} />
+        <Stack.Screen name="Calendar" component={Calendar} />
         <Stack.Screen name="SideNavigation" component={SideNavigation} />
         <Stack.Screen name="TaskOverview" component={TaskOverview} />
         <Stack.Screen name="Profile" component={Profile} />

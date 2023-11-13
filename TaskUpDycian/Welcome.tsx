@@ -40,18 +40,22 @@ function Welcome({navigation}: {navigation: any}): JSX.Element {
             <Text style={welcomeStyles.mainText}>Welcome to Task-UP Dycian</Text>
 
             <View style={welcomeStyles.section}>
+                <Image style={welcomeStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                 <Text style={welcomeStyles.sectionText}>Create Task Quickly</Text>
             </View>
 
             <View style={welcomeStyles.section}>
+                <Image style={welcomeStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                 <Text style={welcomeStyles.sectionText}>Set your schedule as easy as 1, 2, 3</Text>
             </View>
 
             <View style={welcomeStyles.section}>
+                <Image style={welcomeStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                 <Text style={welcomeStyles.sectionText}>Task Reminders</Text>
             </View>
 
             <View style={welcomeStyles.section}>
+                <Image style={welcomeStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                 <Text style={welcomeStyles.sectionText}>Task Overview</Text>
             </View>
 
@@ -85,9 +89,17 @@ const welcomeStyles = StyleSheet.create({
         marginTop: '20%',
     },
 
+    icon: {
+        height: 35,
+        width: 35
+    },
+
     section: {
         marginTop: '5%',
-        marginBottom: '5%'
+        marginBottom: '5%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     sectionText: {
