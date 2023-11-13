@@ -26,13 +26,19 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 function Tasks({navigation}: {navigation: any}): JSX.Element {
   const [sharedState, setSharedState] = useState(false);
+  const [showAddTask, setShowAddTask] = useState(false);
+  const addTaskDisplay = showAddTask ? {'display': 'block'} : {'display': 'none'};
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState( 'date');
   const [show, setShow] = useState(false);
   const [text, setText] = useState( 'Empty');
 
   function openAddTaskSection(){
+    setShowAddTask(true);
+  }
 
+  function closeAddTaskSection(){
+    setShowAddTask(false);
   }
 
   return (
@@ -79,7 +85,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
           </View>
         </View>
 
-        <View style={tasksStyles.addTaskSection}>
+        <View style={[tasksStyles.addTaskSection, addTaskDisplay]}>
           <Text style={{ marginTop: '10%', marginBottom: '5%', fontWeight: 'bold' }}>Add Task</Text>
 
           <TextInput 
@@ -110,7 +116,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
             <Pressable style={tasksStyles.bottomSectionElems}>
               <Image style={tasksStyles.icon} source={require('./assets/icons8-book-48.png')}/>
             </Pressable>
-            <Pressable style={tasksStyles.bottomSectionElems}><Text style={tasksStyles.addTaskSectionBottomText}>Cancel</Text></Pressable>
+            <Pressable style={tasksStyles.bottomSectionElems}><Text style={tasksStyles.addTaskSectionBottomText} onPress={() => closeAddTaskSection()}>Cancel</Text></Pressable>
             <Pressable style={tasksStyles.bottomSectionElems}><Text style={tasksStyles.addTaskSectionBottomText}>Done</Text></Pressable>
           </View>
         </View>
