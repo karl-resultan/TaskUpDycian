@@ -42,7 +42,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
   }
 
   return (
-    <LinearGradient colors={['#02F5A5', '#01DBF1']} style={tasksStyles.linearGradient}>
+    <LinearGradient colors={['#00296b', '#00509d']} style={tasksStyles.linearGradient}>
       <View style={tasksStyles.mainContainer}>
         <DashboardHeader sharedState={sharedState} setSharedState={setSharedState}></DashboardHeader>
         <SideNavigation sharedState={sharedState} setSharedState={setSharedState} navigation={navigation}></SideNavigation>

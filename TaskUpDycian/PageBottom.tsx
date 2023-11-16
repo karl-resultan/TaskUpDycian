@@ -21,13 +21,13 @@ function PageBottom(): JSX.Element {
     return (
         <View style={pageBottomStyles.mainContainer}>
             <View style={pageBottomStyles.topLinksContainer}>
-                <Text style={{ alignSelf: 'flex-start', marginRight: '15%'}}>About Us</Text>
-                <Text style={{ alignSelf: 'flex-end'}}>FAQs</Text>
+                <Text style={{ alignSelf: 'flex-start', marginRight: '15%', color: 'white'}}>About Us</Text>
+                <Text style={{ alignSelf: 'flex-end', color: 'white'}}>FAQs</Text>
             </View>
 
             <View style={pageBottomStyles.centerContent}>
                 <View style={pageBottomStyles.collegeLogo}></View>
-                <Text style={{ marginTop: '2%' }}>Dr. Yanga's Colleges INC.</Text>
+                <Text style={{ marginTop: '2%', color: 'white' }}>Dr. Yanga's Colleges INC.</Text>
             </View>
 
             <View style={pageBottomStyles.bottomContent}>

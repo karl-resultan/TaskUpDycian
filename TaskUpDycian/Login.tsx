@@ -19,21 +19,52 @@ import {
 
 import LinearGradient from 'react-native-linear-gradient';
 import PageBottom from './PageBottom';
+import { useUser } from './UserContext';
 
 function Login({navigation}: {navigation: any}): JSX.Element {
   const [studentID, setStudentID] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const { userId, setUser } = useUser();
 
-  function userLogin(){
-      if (studentID != '' && password != ''){
-        navigation.navigate('Dashboard');
-        setStudentID('');
-        setPassword('');
+  async function userLogin(){
+    const user = {
+      'student_id': studentID,
+      'password': password
+    }
+
+    try {
+      console.log(user.student_id);
+      console.log(user.password);
+
+      const response = await fetch('http://192.168.100.99:8000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData.response);
+
+        if (responseData.response == 'login success'){
+          navigation.navigate('Dashboard');
+          setStudentID('');
+          setPassword('');
+          setUser(responseData.user_id);
+          console.log(responseData.user_id);
+        }
+      } else {
+        console.error('Request failed with status:', response.status);
       }
+    } catch (error) {
+      console.error('Error during the request:', error);
+    }
   }
 
   return (
-  <LinearGradient colors={['#02F5A5', '#01DBF1']} style={loginStyles.linearGradient}>
+  <LinearGradient colors={['#00296b', '#00509d']} style={loginStyles.linearGradient}>
     <View style={loginStyles.mainContainer}>
       <View style={loginStyles.content}>
       <Text style={loginStyles.pageTitle}>Task-UP Dycian</Text>
@@ -46,7 +77,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
       <View style={{width: '80%'}}>
           <Text style={loginStyles.inputFieldHeaders}>Password</Text>
           <TextInput defaultValue={password} onChangeText={password => setPassword(password)} style={loginStyles.inputField} secureTextEntry={true} placeholder='Enter your password...'/>
-          <Text>Forgot Password?</Text>
+          <Text style={{ color: 'white' }}>Forgot Password?</Text>
       </View>
 
         <View style={{width: '80%'}}>
@@ -95,10 +126,12 @@ const loginStyles = StyleSheet.create({
       fontWeight: 'bold',
       marginBottom: '15%',
       marginTop: '20%',
+      color: 'white'
     },
   
     inputFieldHeaders: {
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      color: 'white'
     },
   
     inputField: {
@@ -114,7 +147,7 @@ const loginStyles = StyleSheet.create({
       width: '100%',
       marginTop: '3%',
       borderRadius: 15,
-      backgroundColor: '#0D6EFF',
+      backgroundColor: '#fdc500',
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -126,12 +159,13 @@ const loginStyles = StyleSheet.create({
     
     accountCreationCTA: {
       marginTop: '4%',
-      textAlign: 'right'
+      textAlign: 'right',
+      color: 'white'
     },
   
     additionalLinks: {
       marginTop: '20%',
-      flexDirection: 'row'
+      flexDirection: 'row',
     },
   
     additionalLink: {

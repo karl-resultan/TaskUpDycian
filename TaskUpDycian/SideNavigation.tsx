@@ -38,7 +38,7 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
   return (
     <View style={[sideNavigationStyles.container, containerDisplay]} key='container'>
         <View style={sideNavigationStyles.mainContainer}>
-            <LinearGradient colors={['#BFE39F', '#68B5F1']} style={sideNavigationStyles.linearGradient}>
+            <LinearGradient colors={['#00296b', '#00509d']} style={sideNavigationStyles.linearGradient}>
                 <View style={sideNavigationStyles.menuContainer}>
                     <Text style={sideNavigationStyles.sideNavText}>MENU</Text>
                 </View>
@@ -62,7 +62,7 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
             </View>
 
             {/* BOTTOM NAV LINKS */}
-            <Pressable style={sideNavigationStyles.sideNavLink}>
+            <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Dashboard') }>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                 <Text>Notes</Text>
             </Pressable>

@@ -1,5 +1,6 @@
 from database import Base
-from sqlalchemy import Integer, Boolean, String, Column
+from sqlalchemy.orm import relationship
+from sqlalchemy import Integer, Boolean, String, Column, ForeignKey
 
 
 class User(Base):
@@ -15,3 +16,14 @@ class User(Base):
     status = Column(String)
     department = Column(String)
     course = Column(String)
+
+    notes = relationship('Note', back_populates='owner')
+
+class Note(Base):
+    __tablename__ = 'notes'
+
+    id = Column(Integer, primary_key=True, index=True)
+    note_description = Column(String)
+    note_owner = Column(Integer, ForeignKey("users.id"))
+
+    owner = relationship("User", back_populates="notes")

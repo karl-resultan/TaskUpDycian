@@ -38,7 +38,7 @@ import {
 
 function BasePage({navigation}: {navigation: any}): JSX.Element {
   return(
-    <LinearGradient colors={['#02F5A5', '#01DBF1']} style={welcomeStyles.linearGradient}>
+    <LinearGradient colors={['#00296b', '#00509d']} style={welcomeStyles.linearGradient}>
         <View style={welcomeStyles.mainContainer}>
             <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: '20%' }}>
                 <Text style={welcomeStyles.topText}>Task-UP: Dycian</Text>
@@ -61,7 +61,7 @@ function BasePage({navigation}: {navigation: any}): JSX.Element {
                 </Pressable>
                 
                 <View style={[welcomeStyles.facebookLogo, welcomeStyles.bottomContent]}></View>
-                <Text>Visit our Page!</Text>
+                <Text style={{ color: 'white' }}>Visit our Page!</Text>
             </View>
 
             <PageBottom></PageBottom>
@@ -82,13 +82,14 @@ const welcomeStyles = StyleSheet.create({
         height: '100%',
         width: '100%',
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
     topText: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginRight: '5%'
+        marginRight: '5%',
+        color: 'white'
     },
 
     centerText: {
@@ -96,6 +97,7 @@ const welcomeStyles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: '15%',
         marginTop: '20%',
+        color: 'white'
     },
 
     section: {
@@ -116,7 +118,7 @@ const welcomeStyles = StyleSheet.create({
         height: 35,
         width: '30%',
         borderRadius: 15,
-        backgroundColor: '#0D6EFF',
+        backgroundColor: '#fdc500',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -130,7 +132,7 @@ const welcomeStyles = StyleSheet.create({
         height: 35,
         width: '30%',
         borderRadius: 15,
-        backgroundColor: '#0D6EFF',
+        backgroundColor: '#fdc500',
         justifyContent: 'center',
         alignItems: 'center',
     },

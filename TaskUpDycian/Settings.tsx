@@ -27,7 +27,7 @@ function Settings({navigation}: {navigation: any}): JSX.Element {
   const [sharedState, setSharedState] = useState(false);
 
   return (
-    <LinearGradient colors={['#02F5A5', '#01DBF1']} style={settingsStyles.linearGradient}>
+    <LinearGradient colors={['#00296b', '#00509d']} style={settingsStyles.linearGradient}>
         <DashboardHeader sharedState={sharedState} setSharedState={setSharedState}></DashboardHeader>
         <SideNavigation sharedState={sharedState} setSharedState={setSharedState} navigation={navigation}></SideNavigation>
 

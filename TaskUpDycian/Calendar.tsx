@@ -32,7 +32,7 @@ function Calendar({navigation}: {navigation: any}): JSX.Element {
   const [text, setText] = useState( 'Empty');
 
   return (
-    <LinearGradient colors={['#02F5A5', '#01DBF1']} style={calendarStyles.linearGradient}>
+    <LinearGradient colors={['#00296b', '#00509d']} style={calendarStyles.linearGradient}>
       <View style={calendarStyles.mainContainer}>
         <DashboardHeader sharedState={sharedState} setSharedState={setSharedState}></DashboardHeader>
         <SideNavigation sharedState={sharedState} setSharedState={setSharedState} navigation={navigation}></SideNavigation>

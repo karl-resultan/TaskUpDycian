@@ -35,7 +35,7 @@ import {
 
 function Welcome({navigation}: {navigation: any}): JSX.Element {
   return(
-    <LinearGradient colors={['#02F5A5', '#01DBF1']} style={welcomeStyles.linearGradient}>
+    <LinearGradient colors={['#00296b', '#00509d']} style={welcomeStyles.linearGradient}>
         <View style={welcomeStyles.mainContainer}>
             <Text style={welcomeStyles.mainText}>Welcome to Task-UP Dycian</Text>
 
@@ -87,6 +87,7 @@ const welcomeStyles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: '15%',
         marginTop: '20%',
+        color: 'white'
     },
 
     icon: {
@@ -105,6 +106,7 @@ const welcomeStyles = StyleSheet.create({
     sectionText: {
         fontSize: 14,
         fontWeight: 'bold',
+        color: 'white'
     },
 
     continueButton: {
@@ -112,7 +114,7 @@ const welcomeStyles = StyleSheet.create({
         width: '80%',
         marginTop: '10%',
         borderRadius: 15,
-        backgroundColor: '#0D6EFF',
+        backgroundColor: '#fdc500',
         justifyContent: 'center',
         alignItems: 'center',
     },

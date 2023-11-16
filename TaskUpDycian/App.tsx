@@ -38,6 +38,8 @@ import Profile from './Profile';
 import Settings from './Settings';
 import FAQ from './FAQ';
 import AboutUs from './AboutUs';
+
+import { UserProvider } from './UserContext';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
@@ -53,23 +55,25 @@ import {
 
 function App(): JSX.Element {
   return(
-    <NavigationContainer>
+    <UserProvider>
+      <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="BasePage" component={BasePage} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Dashboard" component={Dashboard}/>
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="Tasks" component={Tasks} />
-        <Stack.Screen name="Calendar" component={Calendar} />
-        <Stack.Screen name="SideNavigation" component={SideNavigation} />
-        <Stack.Screen name="TaskOverview" component={TaskOverview} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Settings" component={Settings} />
-        <Stack.Screen name="FAQ" component={FAQ} />
-        <Stack.Screen name="AboutUs" component={AboutUs} />
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen name="Welcome" component={Welcome} />
+          <Stack.Screen name="BasePage" component={BasePage} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Dashboard" component={Dashboard}/>
+          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="Tasks" component={Tasks} />
+          <Stack.Screen name="Calendar" component={Calendar} />
+          <Stack.Screen name="SideNavigation" component={SideNavigation} />
+          <Stack.Screen name="TaskOverview" component={TaskOverview} />
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen name="FAQ" component={FAQ} />
+          <Stack.Screen name="AboutUs" component={AboutUs} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </UserProvider>
   );
 }
 

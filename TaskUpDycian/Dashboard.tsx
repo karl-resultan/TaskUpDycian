@@ -22,12 +22,92 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import SideNavigation from './SideNavigation';
 import DashboardHeader from './DashboardHeader';
+import { useUser } from './UserContext';
 
 function Dashboard({navigation}: {navigation: any}): JSX.Element {
     const [sharedState, setSharedState] = useState(false);
+    const [noteDetails, setNoteDetails] = useState('');
+    const [notes, setNotes] = useState([]);
+    const { userId, setUser } = useUser();
+
+    const [isNotesViewable, setIsNotesViewable] = useState(sharedState);
+    const notesDisplay = isNotesViewable ? {'display': 'block'} : {'display': 'none'};
+
+    async function retrieveNotes(){
+      try {
+        const response = await fetch(`http://192.168.100.99:8000/get_notes?id=${userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+  
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log(responseData.response);
+  
+          if (responseData.response == 'retrieval complete.'){
+            console.log(responseData.notes);
+            setNotes(responseData.notes);
+          }
+        } else {
+          console.error('Request failed with status:', response.status);
+        }
+      } catch (error) {
+        console.error('Error during the request:', error);
+      }
+    }
+
+    function openNoteCreation(){
+      setIsNotesViewable(true);
+    }
+
+    function closeNoteCreation(){
+      setIsNotesViewable(false);
+      setNoteDetails('');
+    }
+
+    async function sendNoteData(){
+      const user = {
+        'note_description': noteDetails,
+        'note_owner': userId
+      }
+  
+      try {
+        console.log(user.note_description);
+        console.log(user.note_owner);
+  
+        const response = await fetch('http://192.168.100.99:8000/create_note', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(user),
+        });
+  
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log(responseData.response);
+  
+          if (responseData.response == 'note created.'){
+            setNoteDetails('');
+            setIsNotesViewable(false);
+            retrieveNotes();
+          }
+        } else {
+          console.error('Request failed with status:', response.status);
+        }
+      } catch (error) {
+        console.error('Error during the request:', error);
+      }
+    }
+
+    useEffect(() => {
+      retrieveNotes();
+    }, [])
 
     return (
-    <LinearGradient colors={['#02F5A5', '#01DBF1']} style={dashboardStyles.linearGradient}>
+    <LinearGradient colors={['#00296b', '#00509d']} style={dashboardStyles.linearGradient}>
       <DashboardHeader sharedState={sharedState} setSharedState={setSharedState}></DashboardHeader>
       <SideNavigation sharedState={sharedState} setSharedState={setSharedState} navigation={navigation}></SideNavigation>
 
@@ -38,18 +118,42 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
 
         <View style={dashboardStyles.notesContainer}>
           <TextInput style={dashboardStyles.searchNotes } placeholder='Search notes...'></TextInput>
-          <View style={dashboardStyles.note }>
-            <Text>Sample Note</Text>
-          </View>
-          <View style={dashboardStyles.note }>
-            <Text>Sample Note</Text>
-          </View>
+
+          <ScrollView contentContainerStyle={{ marginTop: 20, height: 275, width: 300, alignItems: 'center' }}>
+            {notes.map((item) => (
+              <View key={item.id} style={dashboardStyles.note}>
+                <Text>{item.note_description}</Text>
+              </View>
+            ))}
+          </ScrollView>
         </View>
 
         <View>
-          <Pressable style={ dashboardStyles.addNoteButton }>
+          <Pressable style={ dashboardStyles.addNoteButton } onPress={() => openNoteCreation()}>
             <Text style={ dashboardStyles.addNoteButtonText }>+</Text>
           </Pressable>
+        </View>
+
+        <View style={[dashboardStyles.noteCreationContainer, notesDisplay]}>
+          <Text style={dashboardStyles.noteCreationHeader}>CREATE NOTE</Text>
+
+          <Text>Description</Text>
+          <TextInput 
+            defaultValue={noteDetails} 
+            onChangeText={details => setNoteDetails(details)} 
+            style={dashboardStyles.inputField} 
+            placeholder='Enter note details...'
+          />
+
+          <View style={dashboardStyles.noteCreationContainerButtons}>
+            <Pressable style={dashboardStyles.noteCreationContainerButton} onPress={() => sendNoteData()}>
+              <Text>Create</Text>
+            </Pressable>
+
+            <Pressable style={dashboardStyles.noteCreationContainerButton} onPress={() => closeNoteCreation()}>
+              <Text>Cancel</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </LinearGradient>
@@ -95,6 +199,11 @@ const dashboardStyles = StyleSheet.create({
       borderRadius: 15
     },
 
+    allNotes: {
+      width: '100%',
+      height: '80%',
+    },
+
     note: {
       marginTop: '5%',
       marginBottom: '5%',
@@ -103,6 +212,41 @@ const dashboardStyles = StyleSheet.create({
       height: '30%',
       width: '80%',
       borderRadius: 15
+    },
+
+    noteCreationContainer: {
+      position: 'absolute',
+      marginTop: 75,
+      width: '90%',
+      height: '45%',
+      minHeight: '45%',
+      padding: 15,
+      backgroundColor: '#F4F5DB',
+      borderRadius: 15,
+      shadowRadius: 5,
+      zIndex: 12,
+      elevation: 5,
+    },
+
+    noteCreationHeader: {
+      fontSize: 22,
+      fontWeight: 'bold',
+      marginBottom: 20
+    },
+
+    noteCreationContainerButtons: {
+      flexDirection: 'row'
+    },
+
+    noteCreationContainerButton: {
+      marginRight: 15
+    },
+
+    inputField: {
+      backgroundColor: '#F9F9F9',
+      marginTop: 15,
+      marginBottom: 15,
+      borderRadius: 10
     },
 
     addNoteButton: {

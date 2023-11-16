@@ -27,7 +27,7 @@ function TaskOverview({navigation}: {navigation: any}): JSX.Element {
   const [sharedState, setSharedState] = useState(false);
 
   return (
-    <LinearGradient colors={['#02F5A5', '#01DBF1']} style={taskOverviewStyles.linearGradient}>
+    <LinearGradient colors={['#00296b', '#00509d']} style={taskOverviewStyles.linearGradient}>
       <DashboardHeader sharedState={sharedState} setSharedState={setSharedState}></DashboardHeader>
       <SideNavigation sharedState={sharedState} setSharedState={setSharedState} navigation={navigation}></SideNavigation>
 

@@ -21,25 +21,58 @@ import LinearGradient from 'react-native-linear-gradient';
 import PageBottom from './PageBottom';
 
 function Register({navigation}: {navigation:any}): JSX.Element {
-  const [fullName, setFullName] = React.useState('');
+  const [firstName, setFirstName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [middleName, setMiddleName] = React.useState('');
   const [studentNumber, setStudentNumber] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [status, setStatus] = React.useState('');
   const [department, setDepartment] = React.useState('');
   const [course, setCourse] = React.useState('');
 
-  function register(){
-    if (fullName != '' && studentNumber != '' && status != '' && department != '' && course != ''){
-      navigation.navigate('Login');
-      setFullName('');
-      setStudentNumber('');
-      setStatus('');
-      setDepartment('');
-      setCourse('');
+  async function register(){
+    const register_data = {
+      'student_id': studentNumber,
+      'password': password,
+      'first_name': firstName,
+      'last_name': lastName,
+      'middle_initial': middleName,
+      'status': status,
+      'department': department,
+      'course': course
+    }
+
+    try {
+      const response = await fetch('http://192.168.100.99:8000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(register_data),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData);
+
+        navigation.navigate('Login');
+        setFirstName('');
+        setLastName('');
+        setMiddleName('');
+        setStudentNumber('');
+        setStatus('');
+        setDepartment('');
+        setCourse('');
+      } else {
+        console.error('Request failed with status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error during the request:', error);
     }
   }
 
   return (
-    <LinearGradient colors={['#02F5A5', '#01DBF1']} style={registerStyles.linearGradient}>
+    <LinearGradient colors={['#00296b', '#00509d']} style={registerStyles.linearGradient}>
       <ScrollView style={registerStyles.mainContainer}>
         <View style={registerStyles.pageTitle}>
           <Text style={registerStyles.title}>Create Account</Text>
@@ -48,14 +81,29 @@ function Register({navigation}: {navigation:any}): JSX.Element {
         <View style={{ alignItems: 'center'}}>
           
           <View style={{ width: '80%'}}>
-          <Text style={registerStyles.inputFieldText}>Full Name</Text>
-            <TextInput defaultValue={fullName} onChangeText={name => setFullName(name)} style={registerStyles.inputField} placeholder='Enter your Full Name'></TextInput>
+            <Text style={registerStyles.inputFieldText}>First Name</Text>
+            <TextInput defaultValue={firstName} onChangeText={name => setFirstName(name)} style={registerStyles.inputField} placeholder='Enter your First Name'></TextInput>
+          </View>
+
+          <View style={{ width: '80%'}}>
+            <Text style={registerStyles.inputFieldText}>Last Name</Text>
+            <TextInput defaultValue={lastName} onChangeText={name => setLastName(name)} style={registerStyles.inputField} placeholder='Enter your Last Name'></TextInput>
+          </View>
+
+          <View style={{ width: '80%'}}>
+            <Text style={registerStyles.inputFieldText}>Middle Name</Text>
+            <TextInput defaultValue={middleName} onChangeText={name => setMiddleName(name)} style={registerStyles.inputField} placeholder='Enter your Middle Name'></TextInput>
           </View>
   
           
           <View style={{ width: '80%'}}>
             <Text style={registerStyles.inputFieldText}>Student Number</Text>
             <TextInput defaultValue={studentNumber} onChangeText={stud_number => setStudentNumber(stud_number)} style={registerStyles.inputField} placeholder='Enter your Student Number'></TextInput>
+          </View>
+
+          <View style={{ width: '80%'}}>
+            <Text style={registerStyles.inputFieldText}>Password</Text>
+            <TextInput defaultValue={password} onChangeText={password => setPassword(password)} style={registerStyles.inputField} placeholder='Enter your Password'></TextInput>
           </View>
           
           
@@ -83,7 +131,7 @@ function Register({navigation}: {navigation:any}): JSX.Element {
           </Pressable>
           
           <Pressable onPress={() => {navigation.navigate('Login')}}>
-            <Text style={{ marginTop: '5%', marginBottom: '15%'}}>Already a User? Login</Text>
+            <Text style={{ marginTop: '5%', marginBottom: '15%', color: 'white' }}>Already a User? Login</Text>
           </Pressable>
         </View>
 
@@ -107,7 +155,8 @@ const registerStyles = StyleSheet.create({
 
     pageTitle: {
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+        color: 'white'
     },
 
     title: {
@@ -115,20 +164,22 @@ const registerStyles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: '15%',
         marginTop: '20%',
+        color: 'white'
     },
 
     inputField: {
         height: 40,
         width: '100%',
         backgroundColor: '#FFF',
-        color: '#000000',
+        color: 'white',
         marginTop: '5%',
         marginBottom: '5%',
         fontSize: 13
     },
 
     inputFieldText: {
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      color: 'white'
     },
 
     loginButton: {
@@ -136,14 +187,14 @@ const registerStyles = StyleSheet.create({
         width: '100%',
         marginTop: '5%',
         borderRadius: 15,
-        backgroundColor: '#0D6EFF',
+        backgroundColor: '#fdc500',
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     loginButtonText: {
-    fontWeight: 'bold',
-    color: '#FFFFFF'
+      fontWeight: 'bold',
+      color: 'white'
     },
 });
 

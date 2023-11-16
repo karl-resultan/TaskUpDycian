@@ -31,7 +31,7 @@ function DashboardHeader({sharedState, setSharedState, navigation}: any): JSX.El
             </Pressable>
             <View>
             <View></View>
-            <Text>Dr. Yanga's Colleges Inc.</Text>
+            <Text style={{ color: 'white' }}>Dr. Yanga's Colleges Inc.</Text>
             </View>
 
             <Pressable>
