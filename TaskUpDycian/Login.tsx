@@ -36,7 +36,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
       console.log(user.student_id);
       console.log(user.password);
 
-      const response = await fetch('http://192.168.100.99:8000/login', {
+      const response = await fetch('http://*/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

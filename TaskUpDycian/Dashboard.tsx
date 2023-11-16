@@ -35,7 +35,7 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
 
     async function retrieveNotes(){
       try {
-        const response = await fetch(`http://192.168.100.99:8000/get_notes?id=${userId}`, {
+        const response = await fetch(`http://*/get_notes?id=${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
         console.log(user.note_description);
         console.log(user.note_owner);
   
-        const response = await fetch('http://192.168.100.99:8000/create_note', {
+        const response = await fetch('http://*/create_note', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -43,7 +43,7 @@ function Register({navigation}: {navigation:any}): JSX.Element {
     }
 
     try {
-      const response = await fetch('http://192.168.100.99:8000/register', {
+      const response = await fetch('http://*/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
