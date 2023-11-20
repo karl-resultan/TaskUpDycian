@@ -29,6 +29,13 @@ class User(BaseModel):
     department: str
     course: str
 
+class UserID(BaseModel):
+    id: int
+
+
+class NoteID(BaseModel):
+    id: int
+
 class LoginData(BaseModel):
     student_id: str
     password: str
@@ -77,7 +84,14 @@ async def login(student: LoginData, db: Session = Depends(get_db)):
         return {'response': 'login success', 'user_id': user.id}
     else:
         return {'response': 'login failed'}
-    
+
+
+@app.post('/get_user_data')
+async def get_user_data(user_id: UserID, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id.id).first()
+
+    return {'user_data': user, 'response': 'retrieval success'}
+
 
 @app.get('/get_notes')
 async def get_notes(id: str, db: Session = Depends(get_db)):
@@ -104,3 +118,17 @@ async def create_note(note: Note, db: Session = Depends(get_db)):
         return {'response': 'note created.'}
     except:
         return {'response': 'failed to create note.'}
+    
+
+@app.post('/delete_note')
+async def delete_note(note_id: NoteID, db: Session = Depends(get_db)):
+    try:
+        retrieved_note = db.query(models.Note).filter(models.Note.id == note_id.id).first()
+        
+        if retrieved_note:
+            db.delete(retrieved_note)
+            db.commit()
+
+        return {'response': 'note deleted.'}
+    except:
+        return {'response': 'failed to delete note.'}

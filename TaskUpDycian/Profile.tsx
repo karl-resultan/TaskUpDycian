@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   Button,
@@ -22,10 +22,57 @@ import LinearGradient from 'react-native-linear-gradient';
 import SideNavigation from './SideNavigation';
 import DashboardHeader from './DashboardHeader';
 import PageBottom from './PageBottom';
+import { useUser } from './UserContext';
 
 
 function Profile({navigation}: {navigation: any}): JSX.Element {
   const [sharedState, setSharedState] = useState(false);
+  const [ name, setName ] = useState('');
+  const [ school, setSchool ] = useState('');
+  const [ birthday, setBirthday ] = useState('');
+  const [ department, setDepartment ] = useState('');
+  const [ email, setEmail ] = useState('');
+  const [ contact, setContact ] = useState('');
+  const { userId, setUser } = useUser();
+
+
+  async function retrieveUser(){
+    const user = {
+      'id': userId
+    }
+  
+    try {
+      const response = await fetch('http://192.168.100.99:8000/get_user_data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData.response);
+
+        if (responseData.response == 'retrieval success'){
+          setName(`${responseData.user_data.first_name} ${responseData.user_data.middle_initial} ${responseData.user_data.last_name}`);
+          setSchool('DYCI');
+          setBirthday(responseData.user_data.birthday);
+          setDepartment(responseData.user_data.department);
+          setEmail(responseData.user_data.email);
+          setContact(responseData.user_data.contact);
+        }
+      } else {
+        console.error('Request failed with status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error during the request:', error);
+    }
+  }
+
+  useEffect(() => {
+    retrieveUser();
+  }, [])
 
   return (
     <LinearGradient colors={['#00296b', '#00509d']} style={profileStyles.linearGradient}>
@@ -47,14 +94,14 @@ function Profile({navigation}: {navigation: any}): JSX.Element {
 
             <View style={profileStyles.rightSection}>
                 <Text style={profileStyles.sectionHeading}>About Me</Text>
-                <Text style={profileStyles.profileText}>College Department</Text>
-                <Text style={profileStyles.profileText}>School</Text>
-                <Text style={profileStyles.profileText}>Name</Text>
-                <Text style={profileStyles.profileText}>Birthday</Text>
+                <Text style={profileStyles.profileText}>College Department: {department}</Text>
+                <Text style={profileStyles.profileText}>School: {school}</Text>
+                <Text style={profileStyles.profileText}>Name: {name}</Text>
+                <Text style={profileStyles.profileText}>Birthday: {birthday}</Text>
 
                 <Text style={profileStyles.sectionHeading}>Contact Information</Text>
-                <Text style={profileStyles.profileText}>Email</Text>
-                <Text style={profileStyles.profileText}>Phone</Text>
+                <Text style={profileStyles.profileText}>Email: {email}</Text>
+                <Text style={profileStyles.profileText}>Phone: {contact}</Text>
             </View>
           </View>
         </View>

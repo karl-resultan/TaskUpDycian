@@ -35,7 +35,7 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
 
     async function retrieveNotes(){
       try {
-        const response = await fetch(`http://*/get_notes?id=${userId}`, {
+        const response = await fetch(`http://192.168.100.99:8000/get_notes?id=${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -68,21 +68,21 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
     }
 
     async function sendNoteData(){
-      const user = {
+      const note = {
         'note_description': noteDetails,
         'note_owner': userId
       }
   
       try {
-        console.log(user.note_description);
-        console.log(user.note_owner);
+        console.log(note.note_description);
+        console.log(note.note_owner);
   
-        const response = await fetch('http://*/create_note', {
+        const response = await fetch('http://192.168.100.99:8000/create_note', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(user),
+          body: JSON.stringify(note),
         });
   
         if (response.ok) {
@@ -90,6 +90,37 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
           console.log(responseData.response);
   
           if (responseData.response == 'note created.'){
+            setNoteDetails('');
+            setIsNotesViewable(false);
+            retrieveNotes();
+          }
+        } else {
+          console.error('Request failed with status:', response.status);
+        }
+      } catch (error) {
+        console.error('Error during the request:', error);
+      }
+    }
+
+    async function deleteNote(note_id: number){
+      const note = {
+        'id': note_id
+      }
+  
+      try {
+        const response = await fetch('http://192.168.100.99:8000/delete_note', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(note),
+        });
+  
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log(responseData.response);
+  
+          if (responseData.response == 'note deleted.'){
             setNoteDetails('');
             setIsNotesViewable(false);
             retrieveNotes();
@@ -123,6 +154,14 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
             {notes.map((item) => (
               <View key={item.id} style={dashboardStyles.note}>
                 <Text>{item.note_description}</Text>
+                
+                <Pressable>
+                  <Text>Edit</Text>
+                </Pressable>
+
+                <Pressable onPress={() => deleteNote(item.id)}>
+                  <Text>Delete</Text>
+                </Pressable>
               </View>
             ))}
           </ScrollView>
