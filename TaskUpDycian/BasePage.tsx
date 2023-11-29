@@ -43,7 +43,7 @@ function BasePage({navigation}: {navigation: any}): JSX.Element {
             <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: '20%' }}>
                 <Text style={welcomeStyles.topText}>Task-UP: Dycian</Text>
 
-                <Pressable style={welcomeStyles.getStarted}>
+                <Pressable style={welcomeStyles.getStarted} onPress={() => navigation.navigate('Register')}>
                     <Text style={welcomeStyles.getStartedText}>Get Started</Text>
                 </Pressable>
             </View>

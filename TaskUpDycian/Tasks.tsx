@@ -16,29 +16,101 @@ import {
   TextStyle,
   ViewStyle,
   Pressable,
+  Keyboard
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import SideNavigation from './SideNavigation';
 import DashboardHeader from './DashboardHeader';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useUser } from './UserContext';
 
 
 function Tasks({navigation}: {navigation: any}): JSX.Element {
   const [sharedState, setSharedState] = useState(false);
   const [showAddTask, setShowAddTask] = useState(false);
-  const addTaskDisplay = showAddTask ? {'display': 'block'} : {'display': 'none'};
-  const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState( 'date');
+  const [due_date, setDueDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
+  const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [text, setText] = useState( 'Empty');
+  const [text, setText] = useState('');
+  const [taskType, setTaskType] = useState('Activities');
+  const { userId, setUser } = useUser();
+
+  // DYNAMIC CONTENT LOADING
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+  const addTaskDisplay = showAddTask ? {'display': 'block'} : {'display': 'none'};
 
   function openAddTaskSection(){
     setShowAddTask(true);
+    setText('');
   }
 
   function closeAddTaskSection(){
     setShowAddTask(false);
+    setText('');
+    Keyboard.dismiss();
+  }
+
+  async function createNewTask(){
+    try {
+      const response = await fetch('http://192.168.100.99:8000/create_task', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          {
+            'task_description': text,
+            'task_type': taskType,
+            'due_date': `${due_date} ${time}`,
+            'task_owner': userId
+          }
+        ),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData.response);
+
+        if (responseData.response == 'task created'){
+          closeAddTaskSection();
+          setText('');
+          Keyboard.dismiss();
+        }
+      } else {
+        console.error('Request failed with status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error during the request:', error);
+    }
+  }
+
+  async function getTasks(){
+    try {
+      const response = await fetch(`http://192.168.100.99:8000/get_tasks?id=${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData.response);
+
+        if (responseData.response == 'task created'){
+          closeAddTaskSection();
+          setText('');
+          Keyboard.dismiss();
+        }
+      } else {
+        console.error('Request failed with status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error during the request:', error);
+    }
   }
 
   return (
@@ -89,35 +161,57 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
           <Text style={{ marginTop: '10%', marginBottom: '5%', fontWeight: 'bold' }}>Add Task</Text>
 
           <TextInput 
+            textAlignVertical='top'
             multiline={true}
             numberOfLines={5}
             style={tasksStyles.taskSectionTextWall} 
-            placeholder='Enter task details...'>
-          </TextInput>
+            placeholder='Enter task details...'
+            defaultValue={text}
+            onChangeText={taskText => setText(taskText)}
+          />
+          <Text style={{ marginTop: 10 }}>Task Due Date: {due_date.toDateString()} {time.toLocaleTimeString()}</Text>
 
           <View style={tasksStyles.addTaskSectionBottom}>
             <View style={tasksStyles.bottomSectionElems}>
-              <Pressable>
+              <Pressable onPress={() => { setTaskType('Activities'); console.log('Set to activities')}}>
                 <Text>Activities</Text>
               </Pressable>
-              <Pressable>
+
+              <Pressable onPress={() => { setTaskType('Exams'); console.log('Set to exams')}}>
                 <Text>Exams</Text>
               </Pressable>
             </View>
 
-            <DateTimePicker
-                testID='dateTimePicker'
-                value={date}
-                mode='date'
-                is24Hour={true}
-                display='default'
-            />
+            {isDatePickerVisible && (
+              <DateTimePicker
+                  value={due_date}
+                  mode='date'
+                  is24Hour={true}
+                  display='default'
+                  onChange={(event, date) => {setDueDate(date); setDatePickerVisibility(false)}}
+              />
+            )}
 
-            <Pressable style={tasksStyles.bottomSectionElems}>
+            {isTimePickerVisible && (
+              <DateTimePicker
+                  value={time}
+                  mode='time'
+                  is24Hour={true}
+                  display='default'
+                  onChange={(event, time) => {setTime(time); setTimePickerVisibility(false)}}
+              />
+            )}
+
+            <Pressable style={tasksStyles.bottomSectionElems} onPress={() => {setDatePickerVisibility(true)}}>
               <Image style={tasksStyles.icon} source={require('./assets/icons8-book-48.png')}/>
             </Pressable>
-            <Pressable style={tasksStyles.bottomSectionElems}><Text style={tasksStyles.addTaskSectionBottomText} onPress={() => closeAddTaskSection()}>Cancel</Text></Pressable>
-            <Pressable style={tasksStyles.bottomSectionElems}><Text style={tasksStyles.addTaskSectionBottomText}>Done</Text></Pressable>
+
+            <Pressable style={tasksStyles.bottomSectionElems} onPress={() => {setTimePickerVisibility(true)}}>
+              <Image style={tasksStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+            </Pressable>
+
+            <Pressable style={tasksStyles.bottomSectionElems} onPress={() => closeAddTaskSection()}><Text style={tasksStyles.addTaskSectionBottomText}>Cancel</Text></Pressable>
+            <Pressable style={tasksStyles.bottomSectionElems} onPress={() => createNewTask()}><Text style={tasksStyles.addTaskSectionBottomText}>Done</Text></Pressable>
           </View>
         </View>
       </View>
@@ -190,6 +284,9 @@ const tasksStyles = StyleSheet.create({
     taskSectionTextWall: {
       height: '50%',
       width: '100%',
+      paddingTop: 10,
+      paddingLeft: 10,
+      paddingRight: 10,
       backgroundColor: '#D9D9D9',
       color: 'black'
     },

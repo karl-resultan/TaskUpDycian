@@ -171,7 +171,7 @@ const registerStyles = StyleSheet.create({
         height: 40,
         width: '100%',
         backgroundColor: '#FFF',
-        color: 'white',
+        color: 'black',
         marginTop: '5%',
         marginBottom: '5%',
         fontSize: 13

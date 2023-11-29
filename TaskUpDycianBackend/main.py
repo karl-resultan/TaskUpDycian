@@ -45,6 +45,14 @@ class Note(BaseModel):
     note_owner: int
 
 
+class Task(BaseModel):
+    task_type: str
+    task_description: str
+    due_date: str
+    task_owner: int
+
+
+
 def get_db():
     try:
         db = SessionLocal(bind=engine)
@@ -132,3 +140,32 @@ async def delete_note(note_id: NoteID, db: Session = Depends(get_db)):
         return {'response': 'note deleted.'}
     except:
         return {'response': 'failed to delete note.'}
+    
+
+@app.get('/get_tasks')
+async def get_tasks(id: str, db: Session = Depends(get_db)):
+    pass
+
+
+@app.post('/create_task')
+async def create_task(task: Task, db: Session = Depends(get_db)):
+    try:
+        new_task = models.Task()
+
+        new_task.task_type = task.task_type
+        new_task.task_description = task.task_description
+        new_task.due_date = task.due_date
+        new_task.task_owner = task.task_owner
+        new_task.is_completed = False
+        
+        print(f'Task type: {new_task.task_type}')
+        print(f'Task desc: {new_task.task_description}')
+        print(f'Task date: {new_task.due_date}')
+        print(f'Task owner: {new_task.task_owner}')
+        print(f'Task status: {new_task.is_completed}')
+        # db.add(new_task)
+        # db.commit()
+
+        return {'response': 'task created'}
+    except:
+        return {'response': 'failed to create task.'}
