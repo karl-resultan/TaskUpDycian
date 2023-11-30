@@ -80,6 +80,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
           closeAddTaskSection();
           setText('');
           Keyboard.dismiss();
+          getTasks();
         }
       } else {
         console.error('Request failed with status:', response.status);
@@ -104,6 +105,9 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
         if (responseData.response == 'tasks retrieved'){
           console.log('Tasks successfully retrieved.');
+          
+          setActivities(responseData.activities);
+          setExams(responseData.exams);
         }
       } else {
         console.error('Request failed with status:', response.status);
@@ -143,12 +147,34 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
           <View style={{ height: '73%', width: '100%', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
             <View style={tasksStyles.section}>
               <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'white' }}>Activities</Text>
-              <Text>No activities as of now.</Text>
+
+              <ScrollView contentContainerStyle={{ marginTop: 20, paddingBottom: 30, width: '95%', alignItems: 'center' }}>
+                {activities.map((activity) => (
+                  <View key={activity.id} style={tasksStyles.task}>
+                    <Text style={{ color: 'black', fontSize: 20 }}>{activity.task_description}</Text>
+                    <Text>Due Date: {activity.due_date}</Text>
+
+                    <Text>{activity.is_completed}</Text>
+                  </View>
+                ))}
+              </ScrollView>              
+
+              {/* <Text>No activities as of now.</Text> */}
             </View>
 
             <View style={tasksStyles.section}>
               <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'white' }}>Exams</Text>
-              <Text>No exams.</Text>
+              
+              <ScrollView contentContainerStyle={{ marginTop: 20, paddingBottom: 30, width: '95%', alignItems: 'center' }}>
+                {exams.map((exam) => (
+                  <View key={exam.id} style={tasksStyles.task}>
+                    <Text style={{ color: 'black', fontSize: 20 }}>{exam.task_description}</Text>
+                    <Text>Due Date: {exam.due_date}</Text>
+
+                    <Text>{exam.is_completed}</Text>
+                  </View>
+                ))}
+              </ScrollView>   
             </View>
 
             <Text>No schedule for the day. Click + to create a task.</Text>
@@ -259,6 +285,16 @@ const tasksStyles = StyleSheet.create({
       marginTop: '5%',
       marginBottom: '5%',
       backgroundColor: '#D9D9D9'
+    },
+
+    task: {
+      marginTop: '5%',
+      marginBottom: '5%',
+      backgroundColor: 'white',
+      padding: '3%',
+      minHeight: 80,
+      width: '90%',
+      borderRadius: 15
     },
 
     addTaskButton: {

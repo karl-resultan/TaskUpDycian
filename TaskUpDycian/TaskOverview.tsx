@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -22,9 +22,51 @@ import LinearGradient from 'react-native-linear-gradient';
 import SideNavigation from './SideNavigation';
 import DashboardHeader from './DashboardHeader';
 
+import { useUser } from './UserContext';
+
 
 function TaskOverview({navigation}: {navigation: any}): JSX.Element {
   const [sharedState, setSharedState] = useState(false);
+  const [activities, setActivities] = useState([]);
+  const [exams, setExams] = useState([]);
+  const [weekly_tasks, setWeeklyTasks] = useState([]);  
+  const [completed, setCompleted] = useState('');
+  const [pending, setPending] = useState('');
+  const { userId, setUser } = useUser();
+
+  async function getTaskData() {
+    try {
+        const response = await fetch(`http://192.168.100.99:8000/get_task_overview?id=${userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+  
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log(responseData.response);
+  
+          if (responseData.response == 'tasks retrieved'){
+            console.log('Tasks successfully retrieved.');
+            
+            setActivities(responseData.activities);
+            setExams(responseData.exams);
+            setWeeklyTasks(responseData.weekly_tasks);
+            setCompleted(responseData.completed);
+            setPending(responseData.pending);
+          }
+        } else {
+          console.error('Request failed with status:', response.status);
+        }
+      } catch (error) {
+        console.error('Error during the request:', error);
+      }
+  }
+
+  useEffect(() => {
+    getTaskData();
+  }, []);
 
   return (
     <LinearGradient colors={['#00296b', '#00509d']} style={taskOverviewStyles.linearGradient}>
@@ -42,12 +84,12 @@ function TaskOverview({navigation}: {navigation: any}): JSX.Element {
 
             <View style={{ flexDirection: 'row', height: '15%' }}>
                 <View style={taskOverviewStyles.taskCount}>
-                    <Text style={taskOverviewStyles.taskCountText}>0</Text>
+                    <Text style={taskOverviewStyles.taskCountText}>{completed}</Text>
                     <Text>Completed Tasks</Text>
                 </View>
 
                 <View style={taskOverviewStyles.taskCount}>
-                    <Text style={taskOverviewStyles.taskCountText}>0</Text>
+                    <Text style={taskOverviewStyles.taskCountText}>{pending}</Text>
                     <Text>Pending Task</Text>
                 </View>
             </View>

@@ -68,7 +68,7 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('TaskOverview')}>
-                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-task-50 (1).png')}/>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-task-50.png')}/>
                 <Text>Task Overview</Text>
             </Pressable>
 
@@ -119,7 +119,7 @@ const sideNavigationStyles = StyleSheet.create({
 
     mainContainer: {
         top: 0,
-        left: -15,
+        left: 0,
         position: 'absolute',
         backgroundColor: 'white',
         height: '100%',

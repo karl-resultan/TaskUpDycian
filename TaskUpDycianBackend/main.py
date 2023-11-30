@@ -146,31 +146,83 @@ async def delete_note(note_id: NoteID, db: Session = Depends(get_db)):
 @app.get('/get_tasks')
 async def get_tasks(id: str, db: Session = Depends(get_db)):
     try:
-        all_tasks = db.query(models.Note).filter(models.Task.task_owner == id)
-        return {'response': 'tasks retrieved.', 'tasks': all_tasks}
+        all_tasks = db.query(models.Task).filter(models.Task.task_owner == id)
+
+        all_activities = []
+        all_exams = []
+
+        for task in all_tasks:
+            task.due_date = task.due_date.strftime("%Y-%m-%d %H:%M")
+
+            if task.task_type == 'Activities':
+                all_activities.append(task)
+            else:
+                all_exams.append(task)
+
+        print(f'Printing activities: {all_activities}')
+        print(f'Printing exams: {all_exams}')
+
+        return {'response': 'tasks retrieved', 'activities': all_activities, 'exams': all_exams}
     except:
         return {'response': 'failed to retrieve tasks.'}
+    
+
+@app.get('/get_task_overview')
+async def get_task_overview(id: str, db: Session = Depends(get_db)):
+    # try:
+        all_tasks = db.query(models.Task).filter(models.Task.task_owner == id)
+
+        all_activities = []
+        all_exams = []
+        weekly_tasks = []
+        completed_tasks = 0
+        pending_tasks = 0
+
+        for task in all_tasks:
+            task.due_date = task.due_date.strftime("%Y-%m-%d %H:%M")
+
+            if task.task_type == 'Activities':
+                all_activities.append(task)
+            else:
+                all_exams.append(task)
+
+            # Handling Pending and Completed Tasks
+            if task.is_completed:
+                completed_tasks += 1
+            else:
+                pending_tasks += 1
+
+        return {
+            'response': 'tasks retrieved', 
+            'activities': all_activities,
+            'exams': all_exams,
+            'weekly_tasks': weekly_tasks,
+            'completed': completed_tasks,
+            'pending': pending_tasks
+        }
+    # except:
+    #     return {'response': 'failed to retrieve tasks.'}
 
 
 @app.post('/create_task')
 async def create_task(task: Task, db: Session = Depends(get_db)):
-        new_task = models.Task()
+    new_task = models.Task()
 
-        to_datetime = task.due_date[:25]
-        date_format = "%m-%d-%Y %H:%M"
+    to_datetime = task.due_date[:25]
+    date_format = "%m-%d-%Y %H:%M"
 
-        new_task.task_type = task.task_type
-        new_task.task_description = task.task_description
-        new_task.due_date = datetime.strptime(to_datetime, date_format)
-        new_task.task_owner = task.task_owner
-        new_task.is_completed = False
-        
-        print(f'Task type: {new_task.task_type}')
-        print(f'Task desc: {new_task.task_description}')
-        print(f'Task date: {new_task.due_date}')
-        print(f'Task owner: {new_task.task_owner}')
-        print(f'Task status: {new_task.is_completed}')
-        db.add(new_task)
-        db.commit()
+    new_task.task_type = task.task_type
+    new_task.task_description = task.task_description
+    new_task.due_date = datetime.strptime(to_datetime, date_format)
+    new_task.task_owner = task.task_owner
+    new_task.is_completed = False
+    
+    print(f'Task type: {new_task.task_type}')
+    print(f'Task desc: {new_task.task_description}')
+    print(f'Task date: {new_task.due_date}')
+    print(f'Task owner: {new_task.task_owner}')
+    print(f'Task status: {new_task.is_completed}')
+    db.add(new_task)
+    db.commit()
 
-        return {'response': 'task created'}
+    return {'response': 'task created'}
