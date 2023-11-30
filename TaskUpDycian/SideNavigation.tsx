@@ -55,7 +55,7 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
                     <Text>Activities</Text>
                 </Pressable>
 
-                <Pressable style={[sideNavigationStyles.sideNavLink, sideNavigationStyles.taskSubCategories]}>
+                <Pressable style={[sideNavigationStyles.sideNavLink, sideNavigationStyles.taskSubCategories]} onPress={() => navigation.navigate('Tasks') }>
                     <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
                     <Text>Exams</Text>
                 </Pressable>

@@ -15,7 +15,8 @@ import {
   StyleProp,
   TextStyle,
   ViewStyle,
-  Pressable
+  Pressable,
+  Keyboard
 } from 'react-native';
 
 
@@ -65,6 +66,7 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
     function closeNoteCreation(){
       setIsNotesViewable(false);
       setNoteDetails('');
+      Keyboard.dismiss();
     }
 
     async function sendNoteData(){
@@ -263,7 +265,7 @@ const dashboardStyles = StyleSheet.create({
       backgroundColor: '#F4F5DB',
       borderRadius: 15,
       shadowRadius: 5,
-      zIndex: 12,
+      zIndex: 5,
       elevation: 5,
     },
 

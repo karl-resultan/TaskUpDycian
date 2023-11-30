@@ -313,7 +313,8 @@ const tasksStyles = StyleSheet.create({
       padding: '3%',
       minHeight: 80,
       width: '90%',
-      borderRadius: 15
+      borderRadius: 15,
+      elevation: 6
     },
 
     addTaskButton: {
