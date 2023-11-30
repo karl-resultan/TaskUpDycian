@@ -82,7 +82,8 @@ const faqStyles = StyleSheet.create({
         padding: '3%',
         backgroundColor: '#D9D9D9',
         alignContent: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius: 10
     }
 });
 

@@ -144,9 +144,9 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
             </Pressable>
           </View>
 
-          <View style={{ height: '73%', width: '100%', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+          <View style={tasksStyles.tasksContainer}>
             <View style={tasksStyles.section}>
-              <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'white' }}>Activities</Text>
+              <Text style={tasksStyles.sectionHeader}>Activities</Text>
 
               <ScrollView contentContainerStyle={{ marginTop: 20, paddingBottom: 30, width: '95%', alignItems: 'center' }}>
                 {activities.map((activity) => (
@@ -163,7 +163,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
             </View>
 
             <View style={tasksStyles.section}>
-              <Text style={{ fontWeight: 'bold', fontSize: 20, color: 'white' }}>Exams</Text>
+              <Text style={tasksStyles.sectionHeader}>Exams</Text>
               
               <ScrollView contentContainerStyle={{ marginTop: 20, paddingBottom: 30, width: '95%', alignItems: 'center' }}>
                 {exams.map((exam) => (
@@ -233,11 +233,11 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
             )}
 
             <Pressable style={tasksStyles.bottomSectionElems} onPress={() => {setDatePickerVisibility(true)}}>
-              <Image style={tasksStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+              <Image style={tasksStyles.icon} source={require('./assets/calendar.png')}/>
             </Pressable>
 
             <Pressable style={tasksStyles.bottomSectionElems} onPress={() => {setTimePickerVisibility(true)}}>
-              <Image style={tasksStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+              <Image style={tasksStyles.icon} source={require('./assets/clock.png')}/>
             </Pressable>
 
             <Pressable style={tasksStyles.bottomSectionElems} onPress={() => closeAddTaskSection()}><Text style={tasksStyles.addTaskSectionBottomText}>Cancel</Text></Pressable>
@@ -254,7 +254,7 @@ const tasksStyles = StyleSheet.create({
       height: '100%',
       width: '100%',
       flex: 1,
-      alignItems: 'center'
+      alignItems: 'center',
     },
 
     linearGradient: {
@@ -267,6 +267,16 @@ const tasksStyles = StyleSheet.create({
       width: '100%',
     },
 
+    tasksContainer: {
+      height: '72%', 
+      width: '100%', 
+      backgroundColor: 'white', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      borderRadius: 10,
+      elevation: 5
+    },
+
     taskCategory: {
       margin: '3%',
       width: '25%',
@@ -276,7 +286,8 @@ const tasksStyles = StyleSheet.create({
       textAlign: 'center',
       alignContent: 'center',
       justifyContent: 'center',
-      alignItems: 'center',      
+      alignItems: 'center',
+      elevation: 3   
     },
 
     section: {
@@ -284,7 +295,15 @@ const tasksStyles = StyleSheet.create({
       width: '100%',
       marginTop: '5%',
       marginBottom: '5%',
-      backgroundColor: '#D9D9D9'
+      backgroundColor: '#D9D9D9',
+      elevation: 3
+    },
+
+    sectionHeader: {
+      fontSize: 22,
+      fontWeight: 'bold',
+      color: '#00296b',
+      marginLeft: 15
     },
 
     task: {

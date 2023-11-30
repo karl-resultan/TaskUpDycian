@@ -32,7 +32,37 @@ function TaskOverview({navigation}: {navigation: any}): JSX.Element {
   const [weekly_tasks, setWeeklyTasks] = useState([]);  
   const [completed, setCompleted] = useState('');
   const [pending, setPending] = useState('');
+  const [studentName, setStudentName] = useState('');
   const { userId, setUser } = useUser();
+
+  async function retrieveUser(){
+    const user = {
+      'id': userId
+    }
+  
+    try {
+      const response = await fetch('http://192.168.100.99:8000/get_user_data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData.response);
+
+        if (responseData.response == 'retrieval success'){
+            setStudentName(`${responseData.user_data.first_name} ${responseData.user_data.middle_initial} ${responseData.user_data.last_name}`);
+        }
+      } else {
+        console.error('Request failed with status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error during the request:', error);
+    }
+  }
 
   async function getTaskData() {
     try {
@@ -65,6 +95,7 @@ function TaskOverview({navigation}: {navigation: any}): JSX.Element {
   }
 
   useEffect(() => {
+    retrieveUser();
     getTaskData();
   }, []);
 
@@ -79,7 +110,7 @@ function TaskOverview({navigation}: {navigation: any}): JSX.Element {
         <View style={taskOverviewStyles.mainContent}>
             <View>
                 <View></View>
-                <Text style={taskOverviewStyles.studentName}>Student Name</Text>
+                <Text style={taskOverviewStyles.studentName}>{studentName}</Text>
             </View>
 
             <View style={{ flexDirection: 'row', height: '15%' }}>
@@ -141,7 +172,9 @@ const taskOverviewStyles = StyleSheet.create({
         width: '100%',
         backgroundColor: 'white',
         alignItems: 'center',
-        marginTop: '5%'
+        marginTop: '5%',
+        borderRadius: 10,
+        elevation: 3
     },
 
     studentName: {
@@ -174,7 +207,9 @@ const taskOverviewStyles = StyleSheet.create({
         marginBottom: '2.5%',
         backgroundColor: '#D9D9D9',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius: 5,
+        elevation: 2
     },
 
     dailyTasks: {
