@@ -49,7 +49,7 @@ function BasePage({navigation}: {navigation: any}): JSX.Element {
             </View>
 
             <View style={welcomeStyles.section}>
-                <View style={{ height: 75, width: 75, borderRadius: 150, backgroundColor: '#FFFFFF'}}></View>
+                <Image style={{ height: 150, width: 150, marginRight: 10, marginLeft: 50 }} source={require('./assets/welcome.png')}/>
                 <View style={{ width: '60%', marginLeft: '5%' }}>
                     <Text style={welcomeStyles.centerText}>Task-UP Dycian: To-Do List App</Text>
                 </View>
