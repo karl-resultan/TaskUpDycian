@@ -29,9 +29,10 @@ function DashboardHeader({sharedState, setSharedState, navigation}: any): JSX.El
             <Pressable onPress={() => updateSharedState()}>
                 <Image style={[dashboardHeaderStyles.mainNavbarIcon, dashboardHeaderStyles.imageGap]} source={require('./assets/icons8-menu-48.png')} />
             </Pressable>
-            <View>
-            <View></View>
-            <Text style={{ color: 'white' }}>Dr. Yanga's Colleges Inc.</Text>
+
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image style={{ height: 50, width: 50 }} source={require('./assets/school-logo.png')}/>
+                <Text style={{ color: 'white' }}>Dr. Yanga's Colleges Inc.</Text>
             </View>
 
             <Pressable>
@@ -53,8 +54,9 @@ const dashboardHeaderStyles = StyleSheet.create({
         width: '100%',
         marginTop: '7.5%',
         flexDirection: 'row',
-        alignItems: 'center'
-      },
+        alignItems: 'center',
+        alignContent: 'center'
+    },
   
     mainNavbarIcon: {
         height: 30,

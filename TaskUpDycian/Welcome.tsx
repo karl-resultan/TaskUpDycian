@@ -40,22 +40,22 @@ function Welcome({navigation}: {navigation: any}): JSX.Element {
             <Text style={welcomeStyles.mainText}>Welcome to Task-UP Dycian</Text>
 
             <View style={welcomeStyles.section}>
-                <Image style={welcomeStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Image style={welcomeStyles.icon} source={require('./assets/icons8-task-50.png')}/>
                 <Text style={welcomeStyles.sectionText}>Create Task Quickly</Text>
             </View>
 
             <View style={welcomeStyles.section}>
-                <Image style={welcomeStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Image style={welcomeStyles.icon} source={require('./assets/icons8-google-calendar-50.png')}/>
                 <Text style={welcomeStyles.sectionText}>Set your schedule as easy as 1, 2, 3</Text>
             </View>
 
             <View style={welcomeStyles.section}>
-                <Image style={welcomeStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Image style={welcomeStyles.icon} source={require('./assets/icons8-notification-32.png')}/>
                 <Text style={welcomeStyles.sectionText}>Task Reminders</Text>
             </View>
 
             <View style={welcomeStyles.section}>
-                <Image style={welcomeStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Image style={welcomeStyles.icon} source={require('./assets/icons8-overview-50.png')}/>
                 <Text style={welcomeStyles.sectionText}>Task Overview</Text>
             </View>
 
@@ -92,7 +92,8 @@ const welcomeStyles = StyleSheet.create({
 
     icon: {
         height: 35,
-        width: 35
+        width: 35,
+        marginRight: 10
     },
 
     section: {

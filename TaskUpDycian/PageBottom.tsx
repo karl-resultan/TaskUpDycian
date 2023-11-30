@@ -26,14 +26,14 @@ function PageBottom(): JSX.Element {
             </View>
 
             <View style={pageBottomStyles.centerContent}>
-                <View style={pageBottomStyles.collegeLogo}></View>
+                <Image style={{ height: 100, width: 100 }} source={require('./assets/school-logo.png')}/>
                 <Text style={{ marginTop: '2%', color: 'white' }}>Dr. Yanga's Colleges INC.</Text>
             </View>
 
             <View style={pageBottomStyles.bottomContent}>
-                {/* insert image here */}
-                {/* insert image here */}
-                {/* insert image here */}
+                {/* <Image style={{ height: 45, width: 45, marginLeft: 30, marginRight: 30 }} source={require('./assets/school-logo.png')}/>
+                <Image style={{ height: 45, width: 45, marginLeft: 30, marginRight: 30 }} source={require('./assets/school-logo.png')}/>
+                <Image style={{ height: 45, width: 45, marginLeft: 30, marginRight: 30 }} source={require('./assets/school-logo.png')}/> */}
             </View>
         </View>
     );
@@ -41,7 +41,7 @@ function PageBottom(): JSX.Element {
 
 const pageBottomStyles = StyleSheet.create({
     mainContainer: {
-      marginTop: '10%',
+      marginTop: '2%',
       height: '30%',
       width: '100%',
       alignItems: 'center'
@@ -60,7 +60,7 @@ const pageBottomStyles = StyleSheet.create({
     },
 
     bottomContent: {
-        flex: 1,
+        flexDirection: 'row',
         marginBottom: '10%'
     },
 

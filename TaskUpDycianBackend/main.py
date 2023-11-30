@@ -5,6 +5,7 @@ from database import engine, SessionLocal
 from pydantic import Field, BaseModel
 from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime
 import models
 
 
@@ -144,17 +145,23 @@ async def delete_note(note_id: NoteID, db: Session = Depends(get_db)):
 
 @app.get('/get_tasks')
 async def get_tasks(id: str, db: Session = Depends(get_db)):
-    pass
+    try:
+        all_tasks = db.query(models.Note).filter(models.Task.task_owner == id)
+        return {'response': 'tasks retrieved.', 'tasks': all_tasks}
+    except:
+        return {'response': 'failed to retrieve tasks.'}
 
 
 @app.post('/create_task')
 async def create_task(task: Task, db: Session = Depends(get_db)):
-    try:
         new_task = models.Task()
+
+        to_datetime = task.due_date[:25]
+        date_format = "%m-%d-%Y %H:%M"
 
         new_task.task_type = task.task_type
         new_task.task_description = task.task_description
-        new_task.due_date = task.due_date
+        new_task.due_date = datetime.strptime(to_datetime, date_format)
         new_task.task_owner = task.task_owner
         new_task.is_completed = False
         
@@ -163,9 +170,7 @@ async def create_task(task: Task, db: Session = Depends(get_db)):
         print(f'Task date: {new_task.due_date}')
         print(f'Task owner: {new_task.task_owner}')
         print(f'Task status: {new_task.is_completed}')
-        # db.add(new_task)
-        # db.commit()
+        db.add(new_task)
+        db.commit()
 
         return {'response': 'task created'}
-    except:
-        return {'response': 'failed to create task.'}

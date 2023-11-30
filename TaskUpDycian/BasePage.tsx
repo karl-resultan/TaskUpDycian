@@ -60,7 +60,7 @@ function BasePage({navigation}: {navigation: any}): JSX.Element {
                     <Text style={[welcomeStyles.continueButtonText, welcomeStyles.bottomContent]}>Login</Text>
                 </Pressable>
                 
-                <View style={[welcomeStyles.facebookLogo, welcomeStyles.bottomContent]}></View>
+                <Image style={{ height: 45, width: 45, marginRight: 10, marginLeft: 15 }} source={require('./assets/icons8-facebook-48.png')}/>
                 <Text style={{ color: 'white' }}>Visit our Page!</Text>
             </View>
 

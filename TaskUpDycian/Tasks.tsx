@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -38,6 +38,8 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
   const { userId, setUser } = useUser();
 
   // DYNAMIC CONTENT LOADING
+  const [activities, setActivities] = useState([]);
+  const [exams, setExams] = useState([]);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
   const addTaskDisplay = showAddTask ? {'display': 'block'} : {'display': 'none'};
@@ -64,7 +66,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
           {
             'task_description': text,
             'task_type': taskType,
-            'due_date': `${due_date} ${time}`,
+            'due_date': `${due_date.getMonth() + 1}-${due_date.getDate()}-${due_date.getFullYear()} ${time.getHours()}:${time.getMinutes()}`,
             'task_owner': userId
           }
         ),
@@ -100,10 +102,8 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
         const responseData = await response.json();
         console.log(responseData.response);
 
-        if (responseData.response == 'task created'){
-          closeAddTaskSection();
-          setText('');
-          Keyboard.dismiss();
+        if (responseData.response == 'tasks retrieved'){
+          console.log('Tasks successfully retrieved.');
         }
       } else {
         console.error('Request failed with status:', response.status);
@@ -112,6 +112,10 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
       console.error('Error during the request:', error);
     }
   }
+
+  useEffect(() => {
+    getTasks();
+  }, [])
 
   return (
     <LinearGradient colors={['#00296b', '#00509d']} style={tasksStyles.linearGradient}>

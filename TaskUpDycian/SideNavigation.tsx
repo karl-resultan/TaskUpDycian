@@ -68,32 +68,32 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('TaskOverview')}>
-                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-task-50 (1).png')}/>
                 <Text>Task Overview</Text>
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Profile')}>
-                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-female-profile-50.png')}/>
                 <Text>Profile</Text>
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Calendar')}>
-                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-google-calendar-50.png')}/>
                 <Text>Calendar</Text>
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink}>
-                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-feedback-50.png')}/>
                 <Text>Feedback</Text>
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('FAQ')}>
-                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-faq-50.png')}/>
                 <Text>FAQ</Text>
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Settings')}>
-                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-settings-64.png')}/>
                 <Text>Settings</Text>
             </Pressable>
         </View>
@@ -159,7 +159,11 @@ const sideNavigationStyles = StyleSheet.create({
 
     icon: {
         height: 40,
-        width: 40
+        width: 40,
+        marginLeft: 5,
+        marginRight: 10,
+        marginTop: 2,
+        marginBottom: 2
     },
 
     sideNavLink: {
