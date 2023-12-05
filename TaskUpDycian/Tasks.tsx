@@ -57,7 +57,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
   async function createNewTask(){
     try {
-      const response = await fetch('http://192.168.100.99:8000/create_task', {
+      const response = await fetch('https://task-up-dycian.onrender.com/create_task', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
   async function getTasks(){
     try {
-      const response = await fetch(`http://192.168.100.99:8000/get_tasks?id=${userId}`, {
+      const response = await fetch(`https://task-up-dycian.onrender.com/get_tasks?id=${userId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
   async function markComplete(taskId: number){
     try {
-      const response = await fetch(`http://192.168.100.99:8000/mark_complete`, {
+      const response = await fetch(`https://task-up-dycian.onrender.com/mark_complete`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -163,15 +163,15 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
           <View style={{ flexDirection: 'row', height: '12%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
             <Pressable style={tasksStyles.taskCategory}>
-              <Text>All</Text>
+              <Text style={{ color: 'black' }}>All</Text>
             </Pressable>
 
             <Pressable style={tasksStyles.taskCategory}>
-              <Text>Activities</Text>
+              <Text style={{ color: 'black' }}>Activities</Text>
             </Pressable>
 
             <Pressable style={tasksStyles.taskCategory}>
-              <Text>Exams</Text>
+              <Text style={{ color: 'black' }}>Exams</Text>
             </Pressable>
           </View>
 
@@ -183,12 +183,12 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
                 {activities.map((activity) => (
                   <View key={activity.id} style={tasksStyles.task}>
                     <Text style={{ color: 'black', fontSize: 20 }}>{activity.task_description}</Text>
-                    <Text>Due Date: {activity.due_date}</Text>
+                    <Text style={{ color: 'black' }}>Due Date: {activity.due_date}</Text>
 
-                    <Text>{activity.is_completed}</Text>
+                    <Text style={{ color: 'black' }}>{activity.is_completed}</Text>
 
                     <Pressable onPress={() => {markComplete(activity.id)}}>
-                      <Text>Mark as Complete</Text>
+                      <Text style={{ color: 'black' }}>Mark as Complete</Text>
                     </Pressable>
                   </View>
                 ))}
@@ -204,12 +204,12 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
                 {exams.map((exam) => (
                   <View key={exam.id} style={tasksStyles.task}>
                     <Text style={{ color: 'black', fontSize: 20 }}>{exam.task_description}</Text>
-                    <Text>Due Date: {exam.due_date}</Text>
+                    <Text style={{ color: 'black' }}>Due Date: {exam.due_date}</Text>
 
-                    <Text>{exam.is_completed}</Text>
+                    <Text style={{ color: 'black' }}>{exam.is_completed}</Text>
 
                     <Pressable onPress={() => {markComplete(exam.id)}}>
-                      <Text>Mark as Complete</Text>
+                      <Text style={{ color: 'black' }}>Mark as Complete</Text>
                     </Pressable>
                   </View>
                 ))}
@@ -225,7 +225,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
         </View>
 
         <View style={[tasksStyles.addTaskSection, addTaskDisplay]}>
-          <Text style={{ marginTop: '10%', marginBottom: '5%', fontWeight: 'bold' }}>Add Task</Text>
+          <Text style={{ marginTop: '10%', marginBottom: '5%', fontWeight: 'bold', color: 'black' }}>Add Task</Text>
 
           <TextInput 
             textAlignVertical='top'
@@ -235,17 +235,18 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
             placeholder='Enter task details...'
             defaultValue={text}
             onChangeText={taskText => setText(taskText)}
+            placeholderTextColor={'black'}
           />
-          <Text style={{ marginTop: 10 }}>Task Due Date: {due_date.toDateString()} {time.toLocaleTimeString()}</Text>
+          <Text style={{ marginTop: 10, color: 'black' }}>Task Due Date: {due_date.toDateString()} {time.toLocaleTimeString()}</Text>
 
           <View style={tasksStyles.addTaskSectionBottom}>
             <View style={tasksStyles.bottomSectionElems}>
               <Pressable onPress={() => { setTaskType('Activities'); console.log('Set to activities')}}>
-                <Text>Activities</Text>
+                <Text style={{ color: 'black' }}>Activities</Text>
               </Pressable>
 
               <Pressable onPress={() => { setTaskType('Exams'); console.log('Set to exams')}}>
-                <Text>Exams</Text>
+                <Text style={{ color: 'black' }}>Exams</Text>
               </Pressable>
             </View>
 
@@ -319,12 +320,12 @@ const tasksStyles = StyleSheet.create({
       width: '25%',
       height: '30%',
       borderRadius: 100,
-      backgroundColor: '#ADD6F5',
+      backgroundColor: '#fdc500',
       textAlign: 'center',
       alignContent: 'center',
       justifyContent: 'center',
       alignItems: 'center',
-      elevation: 3   
+      elevation: 3
     },
 
     section: {
@@ -359,7 +360,7 @@ const tasksStyles = StyleSheet.create({
       height: 40,
       width: 40,
       borderRadius: 150,
-      backgroundColor: '#ADD6F5',
+      backgroundColor: '#fdc500',
       alignItems: 'center'
     },
 

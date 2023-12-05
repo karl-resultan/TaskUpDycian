@@ -47,54 +47,54 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
             <View style={{ marginTop: '10%', marginBottom: '10%' }}>
                 <Pressable style={sideNavigationStyles.sideNavLink}>
                     <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-                    <Text>Task</Text>
+                    <Text style={{ color: 'black' }}>Task</Text>
                 </Pressable>
 
                 <Pressable style={[sideNavigationStyles.sideNavLink, sideNavigationStyles.taskSubCategories]} onPress={() => navigation.navigate('Tasks') }>
                     <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-                    <Text>Activities</Text>
+                    <Text style={{ color: 'black' }}>Activities</Text>
                 </Pressable>
 
                 <Pressable style={[sideNavigationStyles.sideNavLink, sideNavigationStyles.taskSubCategories]} onPress={() => navigation.navigate('Tasks') }>
                     <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-book-48.png')}/>
-                    <Text>Exams</Text>
+                    <Text style={{ color: 'black' }}>Exams</Text>
                 </Pressable>
             </View>
 
             {/* BOTTOM NAV LINKS */}
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Dashboard') }>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/notes.png')}/>
-                <Text>Notes</Text>
+                <Text style={{ color: 'black' }}>Notes</Text>
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('TaskOverview')}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-task-50.png')}/>
-                <Text>Task Overview</Text>
+                <Text style={{ color: 'black' }}>Task Overview</Text>
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Profile')}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/icons8-female-profile-50.png')}/>
-                <Text>Profile</Text>
+                <Text style={{ color: 'black' }}>Profile</Text>
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Calendar')}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/calendar.png')}/>
-                <Text>Calendar</Text>
+                <Text style={{ color: 'black' }}>Calendar</Text>
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/feedback.png')}/>
-                <Text>Feedback</Text>
+                <Text style={{ color: 'black' }}>Feedback</Text>
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('FAQ')}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/question.png')}/>
-                <Text>FAQ</Text>
+                <Text style={{ color: 'black' }}>FAQ</Text>
             </Pressable>
 
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Settings')}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/settings.png')}/>
-                <Text>Settings</Text>
+                <Text style={{ color: 'black' }}>Settings</Text>
             </Pressable>
         </View>
         <Pressable style={sideNavigationStyles.darkBg} onPress={() => closeSideNav()}></Pressable>
@@ -148,7 +148,7 @@ const sideNavigationStyles = StyleSheet.create({
 
     sideNavText: {
         fontWeight: 'bold',
-        color: 'white'
+        color: 'black'
     },
 
     taskSubCategories: {

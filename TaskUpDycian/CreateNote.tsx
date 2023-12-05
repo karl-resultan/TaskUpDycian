@@ -58,7 +58,7 @@ function CreateNote({navigation}: {navigation: any}): JSX.Element {
         console.log(note.note_description);
         console.log(note.note_owner);
   
-        const response = await fetch('http://192.168.100.99:8000/create_note', {
+        const response = await fetch('https://task-up-dycian.onrender.com/create_note', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -42,7 +42,7 @@ function Profile({navigation}: {navigation: any}): JSX.Element {
     }
   
     try {
-      const response = await fetch('http://192.168.100.99:8000/get_user_data', {
+      const response = await fetch('https://task-up-dycian.onrender.com/get_user_data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

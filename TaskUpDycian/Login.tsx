@@ -37,7 +37,7 @@ function Login({navigation}: {navigation: any}): JSX.Element {
       console.log(user.password);
       console.log('Sending request to https://task-up-dycian.onrender.com/login');
 
-      const response = await fetch('http://192.168.100.99:8000/login', {
+      const response = await fetch('https://task-up-dycian.onrender.com/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
