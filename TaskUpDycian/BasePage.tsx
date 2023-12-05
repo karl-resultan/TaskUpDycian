@@ -21,7 +21,8 @@ import {
   StyleProp,
   TextStyle,
   ViewStyle,
-  Pressable
+  Pressable,
+  Linking
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -61,7 +62,9 @@ function BasePage({navigation}: {navigation: any}): JSX.Element {
                 </Pressable>
                 
                 <Image style={{ height: 45, width: 45, marginRight: 10, marginLeft: 15 }} source={require('./assets/icons8-facebook-48.png')}/>
-                <Text style={{ color: 'white' }}>Visit our Page!</Text>
+                <Pressable onPress={() => {Linking.openURL('https://www.facebook.com/YangaCollege')}}>
+                    <Text style={{ color: 'white' }}>Visit our Page!</Text>
+                </Pressable>
             </View>
 
             <PageBottom></PageBottom>

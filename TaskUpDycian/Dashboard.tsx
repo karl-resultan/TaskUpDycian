@@ -24,15 +24,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import SideNavigation from './SideNavigation';
 import DashboardHeader from './DashboardHeader';
 import { useUser } from './UserContext';
+import { useFocusEffect } from '@react-navigation/native';
 
 function Dashboard({navigation}: {navigation: any}): JSX.Element {
     const [sharedState, setSharedState] = useState(false);
-    const [noteDetails, setNoteDetails] = useState('');
     const [notes, setNotes] = useState([]);
     const { userId, setUser } = useUser();
-
-    const [isNotesViewable, setIsNotesViewable] = useState(sharedState);
-    const notesDisplay = isNotesViewable ? {'display': 'block'} : {'display': 'none'};
 
     async function retrieveNotes(){
       try {
@@ -50,51 +47,6 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
           if (responseData.response == 'retrieval complete.'){
             console.log(responseData.notes);
             setNotes(responseData.notes);
-          }
-        } else {
-          console.error('Request failed with status:', response.status);
-        }
-      } catch (error) {
-        console.error('Error during the request:', error);
-      }
-    }
-
-    function openNoteCreation(){
-      setIsNotesViewable(true);
-    }
-
-    function closeNoteCreation(){
-      setIsNotesViewable(false);
-      setNoteDetails('');
-      Keyboard.dismiss();
-    }
-
-    async function sendNoteData(){
-      const note = {
-        'note_description': noteDetails,
-        'note_owner': userId
-      }
-  
-      try {
-        console.log(note.note_description);
-        console.log(note.note_owner);
-  
-        const response = await fetch('http://192.168.100.99:8000/create_note', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(note),
-        });
-  
-        if (response.ok) {
-          const responseData = await response.json();
-          console.log(responseData.response);
-  
-          if (responseData.response == 'note created.'){
-            setNoteDetails('');
-            setIsNotesViewable(false);
-            retrieveNotes();
           }
         } else {
           console.error('Request failed with status:', response.status);
@@ -123,8 +75,6 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
           console.log(responseData.response);
   
           if (responseData.response == 'note deleted.'){
-            setNoteDetails('');
-            setIsNotesViewable(false);
             retrieveNotes();
           }
         } else {
@@ -135,9 +85,13 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
       }
     }
 
-    useEffect(() => {
-      retrieveNotes();
-    }, [])
+    useFocusEffect(
+      React.useCallback(() => {
+        return () => {
+          retrieveNotes();
+        };
+      }, [])
+    );
 
     return (
     <LinearGradient colors={['#00296b', '#00509d']} style={dashboardStyles.linearGradient}>
@@ -152,49 +106,30 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
         <View style={dashboardStyles.notesContainer}>
           <TextInput style={dashboardStyles.searchNotes } placeholder='Search notes...'></TextInput>
 
-          <ScrollView contentContainerStyle={{ marginTop: 20, height: 275, width: 300, alignItems: 'center' }}>
+          <ScrollView contentContainerStyle={{ marginTop: 20, height: 330, width: 350, alignItems: 'center' }}>
             {notes.map((item) => (
               <View key={item.id} style={dashboardStyles.note}>
-                <Text>{item.note_description}</Text>
+                <Text style={dashboardStyles.noteTitle}>{item.note_title}</Text>
+                <Text style={dashboardStyles.note_due}>{item.due_date}</Text>
                 
-                <Pressable>
-                  <Text>Edit</Text>
-                </Pressable>
+                <View style={{ flexDirection: 'row' }}>
+                  <Pressable style={{ marginRight: 15 }}>
+                    <Text>Edit</Text>
+                  </Pressable>
 
-                <Pressable onPress={() => deleteNote(item.id)}>
-                  <Text>Delete</Text>
-                </Pressable>
+                  <Pressable style={{ marginRight: 15 }} onPress={() => deleteNote(item.id)}>
+                    <Text>Delete</Text>
+                  </Pressable>
+                </View>
               </View>
             ))}
           </ScrollView>
         </View>
 
         <View>
-          <Pressable style={ dashboardStyles.addNoteButton } onPress={() => openNoteCreation()}>
+          <Pressable style={ dashboardStyles.addNoteButton } onPress={() => navigation.navigate('CreateNote')}>
             <Text style={ dashboardStyles.addNoteButtonText }>+</Text>
           </Pressable>
-        </View>
-
-        <View style={[dashboardStyles.noteCreationContainer, notesDisplay]}>
-          <Text style={dashboardStyles.noteCreationHeader}>CREATE NOTE</Text>
-
-          <Text>Description</Text>
-          <TextInput 
-            defaultValue={noteDetails} 
-            onChangeText={details => setNoteDetails(details)} 
-            style={dashboardStyles.inputField} 
-            placeholder='Enter note details...'
-          />
-
-          <View style={dashboardStyles.noteCreationContainerButtons}>
-            <Pressable style={dashboardStyles.noteCreationContainerButton} onPress={() => sendNoteData()}>
-              <Text>Create</Text>
-            </Pressable>
-
-            <Pressable style={dashboardStyles.noteCreationContainerButton} onPress={() => closeNoteCreation()}>
-              <Text>Cancel</Text>
-            </Pressable>
-          </View>
         </View>
       </View>
     </LinearGradient>
@@ -212,7 +147,6 @@ const dashboardStyles = StyleSheet.create({
       height: '100%',
       width: '100%',
       flex: 1,
-      alignItems: 'center'
     },
   
     gradient: {
@@ -224,63 +158,45 @@ const dashboardStyles = StyleSheet.create({
       textAlign: 'left'
     },
   
-    notesContainer: {
-      padding: 3,
-      width: '90%',
-      height: '65%',
-      alignItems: 'center',
-      backgroundColor: '#FFFFFF',
-      borderRadius: 20
+    notesContainer: {      
+      width: '100%',
+      height: '80%',
+      alignItems: 'center'
     },
 
     searchNotes: {
       marginTop: '5%',
       backgroundColor: '#EFEFEF',
-      width: '80%',
-      borderRadius: 15
+      width: '100%',
+      borderRadius: 15,
+      elevation: 5
     },
 
     allNotes: {
       width: '100%',
-      height: '80%',
+      height: '90%',
+    },
+
+    noteTitle: {
+      fontSize: 21,
+      fontWeight: 'bold',
+      marginBottom: 10
+    },
+
+    note_due: {
+      fontSize: 13,
+      marginBottom: 15
     },
 
     note: {
-      marginTop: '5%',
-      marginBottom: '5%',
+      marginTop: '2%',
+      marginBottom: '2%',
       backgroundColor: '#EFEFEF',
       padding: '3%',
-      height: '30%',
-      width: '80%',
-      borderRadius: 15
-    },
-
-    noteCreationContainer: {
-      position: 'absolute',
-      marginTop: 75,
-      width: '90%',
-      height: '45%',
-      minHeight: '45%',
-      padding: 15,
-      backgroundColor: '#F4F5DB',
+      height: '35%',
+      width: '100%',
       borderRadius: 15,
-      shadowRadius: 5,
-      zIndex: 5,
-      elevation: 5,
-    },
-
-    noteCreationHeader: {
-      fontSize: 22,
-      fontWeight: 'bold',
-      marginBottom: 20
-    },
-
-    noteCreationContainerButtons: {
-      flexDirection: 'row'
-    },
-
-    noteCreationContainerButton: {
-      marginRight: 15
+      elevation: 5
     },
 
     inputField: {
@@ -291,14 +207,17 @@ const dashboardStyles = StyleSheet.create({
     },
 
     addNoteButton: {
-      alignSelf: 'flex-end',
-      marginTop: '3%',
-      backgroundColor: '#ADD6F5',
-      height: 70,
-      width: 70,
+      position: 'absolute',
+      alignSelf: 'center',
+      marginTop: '-7%',
+      backgroundColor: '#fdc500',
+      height: 80,
+      width: 80,
       borderRadius: 150,
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      top: 0,
+      zIndex: 3
     },
 
     addNoteButtonText: {

@@ -117,6 +117,37 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
     }
   }
 
+  async function markComplete(taskId: number){
+    try {
+      const response = await fetch(`http://192.168.100.99:8000/mark_complete`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          {
+            'task_id': taskId
+          }
+        ),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData.response);
+
+        if (responseData.response == 'task completed.'){
+          console.log('Task successfully marked complete.');
+
+          navigation.navigate('Tasks');
+        }
+      } else {
+        console.error('Request failed with status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error during the request:', error);
+    }
+  }
+
   useEffect(() => {
     getTasks();
   }, [])
@@ -155,6 +186,10 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
                     <Text>Due Date: {activity.due_date}</Text>
 
                     <Text>{activity.is_completed}</Text>
+
+                    <Pressable onPress={() => {markComplete(activity.id)}}>
+                      <Text>Mark as Complete</Text>
+                    </Pressable>
                   </View>
                 ))}
               </ScrollView>              
@@ -172,12 +207,14 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
                     <Text>Due Date: {exam.due_date}</Text>
 
                     <Text>{exam.is_completed}</Text>
+
+                    <Pressable onPress={() => {markComplete(exam.id)}}>
+                      <Text>Mark as Complete</Text>
+                    </Pressable>
                   </View>
                 ))}
               </ScrollView>   
             </View>
-
-            <Text>No schedule for the day. Click + to create a task.</Text>
 
             <Pressable onPress={() => openAddTaskSection()}>
               <View style={tasksStyles.addTaskButton}>

@@ -38,20 +38,12 @@ import Profile from './Profile';
 import Settings from './Settings';
 import FAQ from './FAQ';
 import AboutUs from './AboutUs';
+import CreateNote from './CreateNote';
 
 import { UserProvider } from './UserContext';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
 
 function App(): JSX.Element {
   return(
@@ -71,6 +63,7 @@ function App(): JSX.Element {
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="FAQ" component={FAQ} />
           <Stack.Screen name="AboutUs" component={AboutUs} />
+          <Stack.Screen name="CreateNote" component={CreateNote} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>
