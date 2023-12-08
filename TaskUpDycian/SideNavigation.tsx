@@ -32,8 +32,7 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
     useEffect(() => {
         // Listen for changes in the shared state and update the local state
         setIsViewVisible(sharedState);
-        console.log('currently listening')
-      }, [sharedState]);
+    }, [sharedState]);
 
   return (
     <View style={[sideNavigationStyles.container, containerDisplay]} key='container'>

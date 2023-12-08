@@ -57,7 +57,8 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
   async function createNewTask(){
     try {
-      const response = await fetch('https://task-up-dycian.onrender.com/create_task', {
+      const response = await fetch('http://192.168.100.99:8000/create_task', {
+      // const response = await fetch('https://task-up-dycian.onrender.com/create_task', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +93,8 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
   async function getTasks(){
     try {
-      const response = await fetch(`https://task-up-dycian.onrender.com/get_tasks?id=${userId}`, {
+      const response = await fetch(`http://192.168.100.99:8000/get_tasks?id=${userId}`, {
+      // const response = await fetch(`https://task-up-dycian.onrender.com/get_tasks?id=${userId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -119,13 +121,15 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
   async function markComplete(taskId: number){
     try {
-      const response = await fetch(`https://task-up-dycian.onrender.com/mark_complete`, {
+      const response = await fetch(`http:192.168.100.99:8000/mark_complete`, {
+      // const response = await fetch(`https://task-up-dycian.onrender.com/mark_complete`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(
           {
+            'id': userId,
             'task_id': taskId
           }
         ),
@@ -137,8 +141,8 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
         if (responseData.response == 'task completed.'){
           console.log('Task successfully marked complete.');
-
-          navigation.navigate('Tasks');
+          setActivities(responseData.activities);
+          setExams(responseData.exams);
         }
       } else {
         console.error('Request failed with status:', response.status);
@@ -185,11 +189,15 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
                     <Text style={{ color: 'black', fontSize: 20 }}>{activity.task_description}</Text>
                     <Text style={{ color: 'black' }}>Due Date: {activity.due_date}</Text>
 
-                    <Text style={{ color: 'black' }}>{activity.is_completed}</Text>
+                    {!activity.is_completed && ( 
+                      <Pressable onPress={() => {markComplete(activity.id)}}>
+                        <Text style={{ color: 'black' }}>Mark as Complete</Text>
+                      </Pressable>
+                    )}
 
-                    <Pressable onPress={() => {markComplete(activity.id)}}>
-                      <Text style={{ color: 'black' }}>Mark as Complete</Text>
-                    </Pressable>
+                    {activity.is_completed && (
+                      <Text>Completed</Text>
+                    )}
                   </View>
                 ))}
               </ScrollView>              
@@ -206,11 +214,15 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
                     <Text style={{ color: 'black', fontSize: 20 }}>{exam.task_description}</Text>
                     <Text style={{ color: 'black' }}>Due Date: {exam.due_date}</Text>
 
-                    <Text style={{ color: 'black' }}>{exam.is_completed}</Text>
+                    {!exam.is_completed && (
+                      <Pressable onPress={() => {markComplete(exam.id)}}>
+                        <Text style={{ color: 'black' }}>Mark as Complete</Text>
+                      </Pressable>
+                    )}
 
-                    <Pressable onPress={() => {markComplete(exam.id)}}>
-                      <Text style={{ color: 'black' }}>Mark as Complete</Text>
-                    </Pressable>
+                    {exam.is_completed && (
+                      <Text>Completed</Text>
+                    )}
                   </View>
                 ))}
               </ScrollView>   
@@ -307,12 +319,9 @@ const tasksStyles = StyleSheet.create({
 
     tasksContainer: {
       height: '72%', 
-      width: '100%', 
-      backgroundColor: 'white', 
+      width: '100%',
       justifyContent: 'center', 
-      alignItems: 'center', 
-      borderRadius: 10,
-      elevation: 5
+      alignItems: 'center',
     },
 
     taskCategory: {
@@ -329,12 +338,12 @@ const tasksStyles = StyleSheet.create({
     },
 
     section: {
-      height: '30%',
+      height: '40%',
       width: '100%',
-      marginTop: '5%',
       marginBottom: '5%',
       backgroundColor: '#D9D9D9',
-      elevation: 3
+      elevation: 3,
+      borderRadius: 15
     },
 
     sectionHeader: {
@@ -356,7 +365,7 @@ const tasksStyles = StyleSheet.create({
     },
 
     addTaskButton: {
-      marginTop: '5%',
+      marginTop: '3%',
       height: 40,
       width: 40,
       borderRadius: 150,

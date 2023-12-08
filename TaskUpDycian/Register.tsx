@@ -17,6 +17,8 @@ import {
   Pressable
 } from 'react-native';
 
+import DropDownPicker from 'react-native-dropdown-picker';
+
 import LinearGradient from 'react-native-linear-gradient';
 import PageBottom from './PageBottom';
 
@@ -29,6 +31,45 @@ function Register({navigation}: {navigation:any}): JSX.Element {
   const [status, setStatus] = React.useState('');
   const [department, setDepartment] = React.useState('');
   const [course, setCourse] = React.useState('');
+
+  const [statusOpen, setStatusOpen] = React.useState(false);
+  const [depOpen, setDepOpen] = React.useState(false);
+  const [courseOpen, setCourseOpen] = React.useState(false);
+
+  // DROPDOWN SELECTIONS
+  const stat_ph = {
+    label: 'Select an option...',
+    value: null,
+  };
+
+  const dep_ph = {
+    label: 'Select an option...',
+    value: null,
+  };
+
+  const course_ph = {
+    label: 'Select an option...',
+    value: null,
+  };
+
+  const status_choices = [
+    { label: 'Undergraduate', value: 'Undergraduate' },
+    { label: 'Transferee', value: 'Transferee' },
+    { label: 'Graduate', value: 'Graduate' },
+  ];
+
+  const dep_choices = [
+    { label: 'CCS', value: 'CCS' },
+    { label: 'COED', value: 'COED' },
+    { label: 'CBA', value: 'CBA' },
+    { label: 'CHS', value: 'CHS' },
+  ];
+
+  const course_choices = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+  ];
 
   async function register(){
     const register_data = {
@@ -43,7 +84,8 @@ function Register({navigation}: {navigation:any}): JSX.Element {
     }
 
     try {
-      const response = await fetch('https://task-up-dycian.onrender.com/register', {
+      const response = await fetch('http://192.168.100.99:8000/register', {
+      // const response = await fetch('https://task-up-dycian.onrender.com/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -109,19 +151,40 @@ function Register({navigation}: {navigation:any}): JSX.Element {
           
           <View style={{ width: '80%'}}>
             <Text style={registerStyles.inputFieldText}>Status</Text>
-            <TextInput defaultValue={status} onChangeText={assigned_stat => setStatus(assigned_stat)} style={registerStyles.inputField} placeholder='Enter your Status'></TextInput>
+            <DropDownPicker
+              open={statusOpen}
+              value={status}
+              items={status_choices}
+              setOpen={setStatusOpen}
+              setValue={setStatus}
+              zIndex={102}
+            />
           </View>
   
           
           <View style={{ width: '80%'}}>
             <Text style={registerStyles.inputFieldText}>Department</Text>
-            <TextInput defaultValue={department} onChangeText={set_dep => setDepartment(set_dep)} style={registerStyles.inputField} placeholder='Enter your Department'></TextInput>
+            <DropDownPicker
+              open={depOpen}
+              value={department}
+              items={dep_choices}
+              setOpen={setDepOpen}
+              setValue={setDepartment}
+              zIndex={101}
+            />
           </View>
   
           
           <View style={{ width: '80%'}}>
             <Text style={registerStyles.inputFieldText}>Course</Text>
-            <TextInput defaultValue={course} onChangeText={set_course => setCourse(set_course)} style={registerStyles.inputField} placeholder='Enter your Course'></TextInput>
+            <DropDownPicker
+              open={courseOpen}
+              value={course}
+              items={course_choices}
+              setOpen={setCourseOpen}
+              setValue={setCourse}
+              zIndex={100}
+            />
           </View>
   
           <Pressable style={{ width: '80%'}} onPress={() => register()}>

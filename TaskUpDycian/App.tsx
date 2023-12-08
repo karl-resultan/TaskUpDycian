@@ -32,7 +32,7 @@ import BasePage from './BasePage';
 import Dashboard from './Dashboard';
 import SideNavigation from './SideNavigation';
 import Tasks from './Tasks';
-import Calendar from './Calendar';
+import ViewCalendar from './Calendar';
 import TaskOverview from './TaskOverview';
 import Profile from './Profile';
 import Settings from './Settings';
@@ -43,6 +43,7 @@ import CreateNote from './CreateNote';
 import { UserProvider } from './UserContext';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
@@ -56,7 +57,7 @@ function App(): JSX.Element {
           <Stack.Screen name="Dashboard" component={Dashboard}/>
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Tasks" component={Tasks} />
-          <Stack.Screen name="Calendar" component={Calendar} />
+          <Stack.Screen name="Calendar" component={ViewCalendar} />
           <Stack.Screen name="SideNavigation" component={SideNavigation} />
           <Stack.Screen name="TaskOverview" component={TaskOverview} />
           <Stack.Screen name="Profile" component={Profile} />

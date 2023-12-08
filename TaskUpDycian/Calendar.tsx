@@ -22,9 +22,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import SideNavigation from './SideNavigation';
 import DashboardHeader from './DashboardHeader';
+import { Calendar } from 'react-native-calendars';
 
-
-function Calendar({navigation}: {navigation: any}): JSX.Element {
+function ViewCalendar({navigation}: {navigation: any}): JSX.Element {
   const [sharedState, setSharedState] = useState(false);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState( 'date');
@@ -37,12 +37,23 @@ function Calendar({navigation}: {navigation: any}): JSX.Element {
         <DashboardHeader sharedState={sharedState} setSharedState={setSharedState}></DashboardHeader>
         <SideNavigation sharedState={sharedState} setSharedState={setSharedState} navigation={navigation}></SideNavigation>
 
-        <DateTimePicker
-            testID='dateTimePicker'
-            value={date}
-            mode='date'
-            is24Hour={true}
-            display='default'
+        <Calendar 
+          style={{
+            borderRadius: 5,
+            margin: 12,
+            elevation: 5,
+            borderWidth: 4,
+            width: 380,
+            height: 400,
+            marginTop: 40,
+            borderColor: 'rgba(100, 100, 100, 0.2)'
+          }}
+          theme={{
+            calendarBackground: '#222',
+            dayTextColor: '#fff',
+            textDisabledColor: '#444',
+            monthTextColor: '#888'
+          }}
         />
       </View>
     </LinearGradient>
@@ -97,4 +108,4 @@ const calendarStyles = StyleSheet.create({
     }
 });
 
-export default Calendar;
+export default ViewCalendar;

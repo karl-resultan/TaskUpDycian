@@ -24,16 +24,19 @@ import LinearGradient from 'react-native-linear-gradient';
 import SideNavigation from './SideNavigation';
 import DashboardHeader from './DashboardHeader';
 import { useUser } from './UserContext';
-import { useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 function Dashboard({navigation}: {navigation: any}): JSX.Element {
+    const navigator = useNavigation();
+
     const [sharedState, setSharedState] = useState(false);
     const [notes, setNotes] = useState([]);
     const { userId, setUser } = useUser();
 
     async function retrieveNotes(){
       try {
-        const response = await fetch(`https://task-up-dycian.onrender.com/get_notes?id=${userId}`, {
+        const response = await fetch(`http://192.168.100.99:8000/get_notes?id=${userId}`, {
+        // const response = await fetch(`https://task-up-dycian.onrender.com/get_notes?id=${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -62,7 +65,8 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
       }
   
       try {
-        const response = await fetch('https://task-up-dycian.onrender.com/delete_note', {
+        const response = await fetch('http://192.168.100.99:8000/delete_note', {
+        // const response = await fetch('https://task-up-dycian.onrender.com/delete_note', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -85,13 +89,13 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
       }
     }
 
-    useFocusEffect(
-      React.useCallback(() => {
-        return () => {
-          retrieveNotes();
-        };
-      }, [])
-    );
+    useEffect(() => {
+      const unsubscribe = navigation.addListener('focus', () => {
+        retrieveNotes();
+      });
+
+      return unsubscribe;
+    }, [navigation]);
 
     return (
     <LinearGradient colors={['#00296b', '#00509d']} style={dashboardStyles.linearGradient}>
@@ -106,7 +110,7 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
         <View style={dashboardStyles.notesContainer}>
           <TextInput style={dashboardStyles.searchNotes } placeholder='Search notes...'></TextInput>
 
-          <ScrollView contentContainerStyle={{ marginTop: 20, height: 330, width: 350, alignItems: 'center' }}>
+          <ScrollView contentContainerStyle={{ paddingBottom: 70, width: 350, alignItems: 'center' }}>
             {notes.map((item) => (
               <View key={item.id} style={dashboardStyles.note}>
                 <Text style={dashboardStyles.noteTitle}>{item.note_title}</Text>
@@ -166,6 +170,7 @@ const dashboardStyles = StyleSheet.create({
 
     searchNotes: {
       marginTop: '5%',
+      marginBottom: '5%',
       backgroundColor: '#EFEFEF',
       color: 'black',
       width: '100%',

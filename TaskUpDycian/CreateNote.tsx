@@ -24,6 +24,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import SideNavigation from './SideNavigation';
 import DashboardHeader from './DashboardHeader';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DocumentPicker from 'react-native-document-picker';
 import { useUser } from './UserContext';
 
 function CreateNote({navigation}: {navigation: any}): JSX.Element {
@@ -33,6 +34,7 @@ function CreateNote({navigation}: {navigation: any}): JSX.Element {
     const [due_date, setDueDate] = useState(new Date());
     const [time, setTime] = useState(new Date());
     const [current_time, setCurrentTime] = useState(processTime(new Date));
+    const [singleFile, setSingleFile] = useState(null);
     const { userId, setUser } = useUser();
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -46,6 +48,47 @@ function CreateNote({navigation}: {navigation: any}): JSX.Element {
         return `${hours}:${formattedMinutes}${split}`;
     }
 
+
+    async function chooseFile(){
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles]
+      });
+
+      setSingleFile(res);
+    } 
+    catch (err) {
+      setSingleFile(null);
+    }
+    }
+
+    async function uploadImage(){
+      if (singleFile != null) {
+        const fileToUpload = singleFile;
+        const data = new FormData();
+        data.append('name', 'Image Upload');
+        data.append('file_attachment', fileToUpload);
+
+        let res = await fetch(
+          'http://localhost/upload.php',
+          {
+            method: 'post',
+            body: data,
+            headers: {
+              'Content-Type': 'multipart/form-data; ',
+            },
+          }
+        );
+
+        let responseJson = await res.json();
+        if (responseJson.status == 1) {
+          console.log('image uploaded.');
+        }
+      } else {
+        console.log('Failed to upload image.');
+      }
+    };
+
     async function sendNoteData(){
       const note = {
         'note_title': noteTitle,
@@ -57,8 +100,9 @@ function CreateNote({navigation}: {navigation: any}): JSX.Element {
       try {
         console.log(note.note_description);
         console.log(note.note_owner);
-  
-        const response = await fetch('https://task-up-dycian.onrender.com/create_note', {
+        
+        const response = await fetch('http://192.168.100.99:8000/create_note', {
+        // const response = await fetch('https://task-up-dycian.onrender.com/create_note', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -132,7 +176,7 @@ function CreateNote({navigation}: {navigation: any}): JSX.Element {
                     <Image style={noteCreationStyles.icon} source={require('./assets/due-date.png')}/>
                     <View>
                         <Text style={noteCreationStyles.sectionTitle}>Due Date</Text>
-                        <Text>{`${due_date.getDate()} / ${due_date.getMonth()} / ${due_date.getFullYear()}`}</Text>
+                        <Text style={{ color: 'white' }}>{`${due_date.getDate()} / ${due_date.getMonth()} / ${due_date.getFullYear()}`}</Text>
                     </View>
                 </View>
                 <View style={noteCreationStyles.sectionDivider}></View>
@@ -143,13 +187,13 @@ function CreateNote({navigation}: {navigation: any}): JSX.Element {
                     <Image style={noteCreationStyles.icon} source={require('./assets/bell.png')}/>
                     <View>
                         <Text style={noteCreationStyles.sectionTitle}>Time / Reminder</Text>
-                        <Text>{current_time}</Text>
+                        <Text style={{ color: 'white' }}>{current_time}</Text>
                     </View>
                 </View>
                 <View style={noteCreationStyles.sectionDivider}></View>
             </Pressable>
 
-            <Pressable style={{ marginTop: 7, marginBottom: 15}}>
+            <Pressable style={{ marginTop: 7, marginBottom: 15}} onPress={() => {chooseFile()}}>
                 <View style={noteCreationStyles.section}>
                     <Image style={noteCreationStyles.icon} source={require('./assets/attach-file.png')}/>
                     <Text style={noteCreationStyles.sectionTitle}>Attachment</Text>
