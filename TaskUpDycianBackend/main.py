@@ -77,18 +77,21 @@ async def register(user: User, db: Session = Depends(get_db)):
     new_user = models.User()
 
     try:
-        new_user.student_id = user.student_id
-        new_user.password = user.password
-        new_user.first_name = user.first_name
-        new_user.last_name = user.last_name
-        new_user.middle_initial = user.middle_initial
-        new_user.status = user.status
-        new_user.department = user.department
-        new_user.course = user.course
+        existing_student = db.query(models.User).filter(models.User.student_id == user.student_id).first()
 
-        db.add(new_user)
-        db.commit()
+        if existing_student is None:
+            new_user.student_id = user.student_id
+            new_user.password = user.password
+            new_user.first_name = user.first_name
+            new_user.last_name = user.last_name
+            new_user.middle_initial = user.middle_initial
+            new_user.status = user.status
+            new_user.department = user.department
+            new_user.course = user.course
 
+            db.add(new_user)
+            db.commit()
+        
     finally:
         db.close()
 

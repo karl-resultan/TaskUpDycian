@@ -37,8 +37,8 @@ function Login({navigation}: {navigation: any}): JSX.Element {
       console.log(user.password);
       // console.log('Sending request to https://task-up-dycian.onrender.com/login');
 
-      const response = await fetch('http://192.168.100.99:8000/login', {
-      // const response = await fetch('https://task-up-dycian.onrender.com/login', {
+      // const response = await fetch('http://192.168.100.99:8000/login', {
+      const response = await fetch('https://task-up-dycian.onrender.com/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,8 +67,8 @@ function Login({navigation}: {navigation: any}): JSX.Element {
   return (
   <LinearGradient colors={['#00296b', '#00509d']} style={loginStyles.linearGradient}>
     <View style={loginStyles.mainContainer}>
+      <Image style={{ height: 180, width: 180, marginTop: 80 }} source={require('./assets/dashboard-icon.png')} />
       <View style={loginStyles.content}>
-      <Text style={loginStyles.pageTitle}>Task-UP Dycian</Text>
 
       <View style={{width: '80%'}}>
           <Text style={loginStyles.inputFieldHeaders}>Student ID</Text>
@@ -78,19 +78,18 @@ function Login({navigation}: {navigation: any}): JSX.Element {
       <View style={{width: '80%'}}>
           <Text style={loginStyles.inputFieldHeaders}>Password</Text>
           <TextInput defaultValue={password} onChangeText={password => setPassword(password)} style={loginStyles.inputField} secureTextEntry={true} placeholder='Enter your password...'/>
-          <Text style={{ color: 'white' }}>Forgot Password?</Text>
       </View>
 
         <View style={{width: '80%'}}>
             <Pressable style={loginStyles.loginButton}>
             <Text style={loginStyles.loginButtonText} onPress={() => userLogin()}>LOGIN</Text>
             </Pressable>
-            <View>
-            <Text style={loginStyles.accountCreationCTA} onPress={() => navigation.navigate('Register')}>No account? Click here</Text>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 40 }}>
+              <Text style={[loginStyles.accountCreationCTA, {color: 'white'} ]}>Forgot Password?</Text>
+              <Text style={loginStyles.accountCreationCTA} onPress={() => navigation.navigate('Register')}>Sign Up</Text>
             </View>
         </View>
-
-        <PageBottom></PageBottom>
         </View>
       </View>
     </LinearGradient>
@@ -108,7 +107,7 @@ const loginStyles = StyleSheet.create({
       height: '100%',
       width: '100%',
       flex: 1,
-      alignItems: 'center'
+      alignItems: 'center',
     },
   
     gradient: {
@@ -126,7 +125,6 @@ const loginStyles = StyleSheet.create({
       fontSize: 24,
       fontWeight: 'bold',
       marginBottom: '15%',
-      marginTop: '20%',
       color: 'white'
     },
   

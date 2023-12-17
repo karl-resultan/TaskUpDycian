@@ -42,8 +42,8 @@ function Profile({navigation}: {navigation: any}): JSX.Element {
     }
   
     try {
-      const response = await fetch('http://192.168.100.99:8000/get_user_data', {
-      // const response = await fetch('https://task-up-dycian.onrender.com/get_user_data', {
+      // const response = await fetch('http://192.168.100.99:8000/get_user_data', {
+      const response = await fetch('https://task-up-dycian.onrender.com/get_user_data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -82,33 +82,20 @@ function Profile({navigation}: {navigation: any}): JSX.Element {
 
       <View style={profileStyles.mainContainer}>
         <View style={profileStyles.mainViewContainer}>
-          <View style={{ flexDirection: 'row', width: '100%', height: '80%' }}>
-            <View style={profileStyles.leftSection}>
-                <View></View>
-                <Pressable style={profileStyles.profileButton}>
-                    <Text>Info</Text>
-                </Pressable>
-                <Pressable style={profileStyles.profileButton}>
-                    <Text>Edit</Text>
-                </Pressable>
-            </View>
-
-            <View style={profileStyles.rightSection}>
-                <Text style={profileStyles.sectionHeading}>About Me</Text>
-                <Text style={profileStyles.profileText}>College Department: {department}</Text>
-                <Text style={profileStyles.profileText}>School: {school}</Text>
-                <Text style={profileStyles.profileText}>Name: {name}</Text>
-                <Text style={profileStyles.profileText}>Birthday: {birthday}</Text>
-
-                <Text style={profileStyles.sectionHeading}>Contact Information</Text>
-                <Text style={profileStyles.profileText}>Email: {email}</Text>
-                <Text style={profileStyles.profileText}>Phone: {contact}</Text>
-            </View>
+          <View style={{ width: '100%', height: 20, alignItems: 'center', marginBottom: 120 }}>
+            <Image style={{ height: 100, width: 100 }} source={require('./assets/profile.png')} />
           </View>
+
+          <Text style={profileStyles.profileText}>Name: {name}</Text>
+          <Text style={profileStyles.profileText}>Birthday: {birthday}</Text>
+          <Text style={profileStyles.profileText}>College Department: {department}</Text>
+          <Text style={profileStyles.profileText}>School: {school}</Text>
+
+          <Text style={profileStyles.sectionHeading}>Contact Information</Text>
+          <Text style={profileStyles.profileText}>Email: {email}</Text>
+          <Text style={profileStyles.profileText}>Phone: {contact}</Text>
         </View>
       </View>
-
-      <PageBottom />
     </LinearGradient>
   );
 }
@@ -128,10 +115,13 @@ const profileStyles = StyleSheet.create({
     },
 
     mainViewContainer: {
-      height: '100%',
-      width: '100%',
-      alignItems: 'center',
-      marginTop: '10%'
+      height: '85%',
+      width: '95%',
+      borderRadius: 15,
+      backgroundColor: 'white',
+      elevation: 3,
+      padding: 30,
+      marginTop: '10%',
     },
 
     leftSection: {
@@ -144,8 +134,7 @@ const profileStyles = StyleSheet.create({
         width: '80%',
         backgroundColor: '#ADD6F5',
         marginTop: '3%',
-        marginBottom: '3%',
-        alignItems: 'center'
+        marginBottom: '3%'
     },
 
     rightSection: {

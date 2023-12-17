@@ -35,8 +35,8 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
 
     async function retrieveNotes(){
       try {
-        const response = await fetch(`http://192.168.100.99:8000/get_notes?id=${userId}`, {
-        // const response = await fetch(`https://task-up-dycian.onrender.com/get_notes?id=${userId}`, {
+        // const response = await fetch(`http://192.168.100.99:8000/get_notes?id=${userId}`, {
+        const response = await fetch(`https://task-up-dycian.onrender.com/get_notes?id=${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -65,8 +65,8 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
       }
   
       try {
-        const response = await fetch('http://192.168.100.99:8000/delete_note', {
-        // const response = await fetch('https://task-up-dycian.onrender.com/delete_note', {
+        // const response = await fetch('http://192.168.100.99:8000/delete_note', {
+        const response = await fetch('https://task-up-dycian.onrender.com/delete_note', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -199,7 +199,7 @@ const dashboardStyles = StyleSheet.create({
       marginBottom: '2%',
       backgroundColor: '#EFEFEF',
       padding: '3%',
-      height: '35%',
+      height: 120,
       width: '100%',
       borderRadius: 15,
       elevation: 5

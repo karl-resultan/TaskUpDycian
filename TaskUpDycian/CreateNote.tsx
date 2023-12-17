@@ -101,8 +101,8 @@ function CreateNote({navigation}: {navigation: any}): JSX.Element {
         console.log(note.note_description);
         console.log(note.note_owner);
         
-        const response = await fetch('http://192.168.100.99:8000/create_note', {
-        // const response = await fetch('https://task-up-dycian.onrender.com/create_note', {
+        // const response = await fetch('http://192.168.100.99:8000/create_note', {
+        const response = await fetch('https://task-up-dycian.onrender.com/create_note', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -137,26 +137,6 @@ function CreateNote({navigation}: {navigation: any}): JSX.Element {
         </View>
 
         <View>
-            {isDatePickerVisible && (
-              <DateTimePicker
-                  value={due_date}
-                  mode='date'
-                  is24Hour={true}
-                  display='default'
-                  onChange={(event, date) => {setDueDate(date); setDatePickerVisibility(false)}}
-              />
-            )}
-
-            {isTimePickerVisible && (
-              <DateTimePicker
-                  value={time}
-                  mode='time'
-                  is24Hour={true}
-                  display='default'
-                  onChange={(event, time) => {setTime(time); setTimePickerVisibility(false), setCurrentTime(processTime(time))}}
-              />
-            )}
-
             <Text style={noteCreationStyles.sectionTitle}>Note Title</Text>
             <TextInput defaultValue={noteTitle} onChangeText={title => setNoteTitle(title)} style={noteCreationStyles.inputField} placeholder='Enter note title...'/>
 
@@ -170,28 +150,6 @@ function CreateNote({navigation}: {navigation: any}): JSX.Element {
                 style={noteCreationStyles.textarea} 
                 placeholder='Enter note description...'
             />
-
-            <Pressable style={{ marginTop: 7, marginBottom: 15}} onPress={() => setDatePickerVisibility(true)}>
-                <View style={noteCreationStyles.section}>
-                    <Image style={noteCreationStyles.icon} source={require('./assets/due-date.png')}/>
-                    <View>
-                        <Text style={noteCreationStyles.sectionTitle}>Due Date</Text>
-                        <Text style={{ color: 'white' }}>{`${due_date.getDate()} / ${due_date.getMonth()} / ${due_date.getFullYear()}`}</Text>
-                    </View>
-                </View>
-                <View style={noteCreationStyles.sectionDivider}></View>
-            </Pressable>
-
-            <Pressable style={{ marginTop: 7, marginBottom: 15}} onPress={() => setTimePickerVisibility(true)}>
-                <View style={noteCreationStyles.section}>
-                    <Image style={noteCreationStyles.icon} source={require('./assets/bell.png')}/>
-                    <View>
-                        <Text style={noteCreationStyles.sectionTitle}>Time / Reminder</Text>
-                        <Text style={{ color: 'white' }}>{current_time}</Text>
-                    </View>
-                </View>
-                <View style={noteCreationStyles.sectionDivider}></View>
-            </Pressable>
 
             <Pressable style={{ marginTop: 7, marginBottom: 15}} onPress={() => {chooseFile()}}>
                 <View style={noteCreationStyles.section}>

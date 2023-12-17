@@ -21,7 +21,8 @@ import {
   StyleProp,
   TextStyle,
   ViewStyle,
-  Pressable
+  Pressable,
+  ImageBackground
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -35,8 +36,9 @@ import {
 
 function Welcome({navigation}: {navigation: any}): JSX.Element {
   return(
-    <LinearGradient colors={['#00296b', '#00509d']} style={welcomeStyles.linearGradient}>
+    <ImageBackground source={require('./assets/bg.png')} style={welcomeStyles.bg}>
         <View style={welcomeStyles.mainContainer}>
+            <Image style={{ height: 180, width: 180 }} source={require('./assets/dashboard-icon.png')} />
             <Text style={welcomeStyles.mainText}>Welcome to Task-UP Dycian</Text>
 
             <View style={welcomeStyles.section}>
@@ -50,7 +52,7 @@ function Welcome({navigation}: {navigation: any}): JSX.Element {
             </View>
 
             <View style={welcomeStyles.section}>
-                <Image style={welcomeStyles.icon} source={require('./assets/icons8-notification-32.png')}/>
+                <Image style={welcomeStyles.icon} source={require('./assets/bell.png')}/>
                 <Text style={welcomeStyles.sectionText}>Task Reminders</Text>
             </View>
 
@@ -59,11 +61,11 @@ function Welcome({navigation}: {navigation: any}): JSX.Element {
                 <Text style={welcomeStyles.sectionText}>Task Overview</Text>
             </View>
 
-            <Pressable style={welcomeStyles.continueButton} onPress={() => navigation.navigate('BasePage')}>
+            <Pressable style={welcomeStyles.continueButton} onPress={() => navigation.navigate('Login')}>
                 <Text style={welcomeStyles.continueButtonText}>Continue</Text>
             </Pressable>
         </View>
-    </LinearGradient>
+    </ImageBackground>
   );
 }
 
@@ -75,18 +77,22 @@ const welcomeStyles = StyleSheet.create({
         paddingRight: 15,
     },
 
+    bg: {
+        flex: 1,
+        resizeMode: 'cover',
+    },
+
     mainContainer: {
         height: '100%',
         width: '100%',
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
     mainText: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: '15%',
-        marginTop: '20%',
+        marginBottom: '5%',
         color: 'white'
     },
 

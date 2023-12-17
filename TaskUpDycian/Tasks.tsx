@@ -42,6 +42,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
   const [exams, setExams] = useState([]);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const addTaskDisplay = showAddTask ? {'display': 'block'} : {'display': 'none'};
 
   function openAddTaskSection(){
@@ -57,8 +58,8 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
   async function createNewTask(){
     try {
-      const response = await fetch('http://192.168.100.99:8000/create_task', {
-      // const response = await fetch('https://task-up-dycian.onrender.com/create_task', {
+      // const response = await fetch('http://192.168.100.99:8000/create_task', {
+      const response = await fetch('https://task-up-dycian.onrender.com/create_task', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,8 +94,8 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
   async function getTasks(){
     try {
-      const response = await fetch(`http://192.168.100.99:8000/get_tasks?id=${userId}`, {
-      // const response = await fetch(`https://task-up-dycian.onrender.com/get_tasks?id=${userId}`, {
+      // const response = await fetch(`http://192.168.100.99:8000/get_tasks?id=${userId}`, {
+      const response = await fetch(`https://task-up-dycian.onrender.com/get_tasks?id=${userId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -121,8 +122,8 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
   async function markComplete(taskId: number){
     try {
-      const response = await fetch(`http:192.168.100.99:8000/mark_complete`, {
-      // const response = await fetch(`https://task-up-dycian.onrender.com/mark_complete`, {
+      // const response = await fetch(`http:192.168.100.99:8000/mark_complete`, {
+      const response = await fetch(`https://task-up-dycian.onrender.com/mark_complete`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -166,21 +167,25 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
           <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 25, marginTop: '5%'}}>TASK</Text>
 
           <View style={{ flexDirection: 'row', height: '12%', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-            <Pressable style={tasksStyles.taskCategory}>
+            <Pressable style={tasksStyles.taskCategory} onPress={() => setSelectedCategory('All')}>
               <Text style={{ color: 'black' }}>All</Text>
             </Pressable>
 
-            <Pressable style={tasksStyles.taskCategory}>
+            <Pressable style={tasksStyles.taskCategory} onPress={() => setSelectedCategory('Activities')}>
               <Text style={{ color: 'black' }}>Activities</Text>
             </Pressable>
 
-            <Pressable style={tasksStyles.taskCategory}>
+            <Pressable style={tasksStyles.taskCategory} onPress={() => setSelectedCategory('Exams')}>
               <Text style={{ color: 'black' }}>Exams</Text>
             </Pressable>
           </View>
 
           <View style={tasksStyles.tasksContainer}>
-            <View style={tasksStyles.section}>
+            <View style={
+              selectedCategory === 'Activities' ? tasksStyles.maxSection : 
+              selectedCategory === 'Exams' ? tasksStyles.hideSection :
+              selectedCategory === 'All' ? tasksStyles.section : {}
+            }>
               <Text style={tasksStyles.sectionHeader}>Activities</Text>
 
               <ScrollView contentContainerStyle={{ marginTop: 20, paddingBottom: 30, width: '95%', alignItems: 'center' }}>
@@ -205,7 +210,11 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
               {/* <Text>No activities as of now.</Text> */}
             </View>
 
-            <View style={tasksStyles.section}>
+            <View style={
+              selectedCategory === 'Activities' ? tasksStyles.hideSection : 
+              selectedCategory === 'Exams' ? tasksStyles.maxSection :
+              selectedCategory === 'All' ? tasksStyles.section : {}
+            }>
               <Text style={tasksStyles.sectionHeader}>Exams</Text>
               
               <ScrollView contentContainerStyle={{ marginTop: 20, paddingBottom: 30, width: '95%', alignItems: 'center' }}>
@@ -335,6 +344,19 @@ const tasksStyles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       elevation: 3
+    },
+
+    maxSection: {
+      height: '80%',
+      width: '100%',
+      marginBottom: '5%',
+      backgroundColor: '#D9D9D9',
+      elevation: 3,
+      borderRadius: 15
+    },
+
+    hideSection: {
+      display: 'none'
     },
 
     section: {

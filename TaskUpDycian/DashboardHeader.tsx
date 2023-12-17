@@ -34,17 +34,6 @@ function DashboardHeader({sharedState, setSharedState, navigation}: any): JSX.El
                 <Image style={{ height: 50, width: 50 }} source={require('./assets/school-logo.png')}/>
                 <Text style={{ color: 'white' }}>Dr. Yanga's Colleges Inc.</Text>
             </View>
-
-            <Pressable>
-                <Image style={[dashboardHeaderStyles.mainNavbarIcon, dashboardHeaderStyles.imageGap, dashboardHeaderStyles.mainNavbarRightIcons]} source={require('./assets/icons8-search-64.png')} />
-            </Pressable>
-            <Pressable>
-                <Image style={[dashboardHeaderStyles.mainNavbarIcon, dashboardHeaderStyles.imageGap, dashboardHeaderStyles.mainNavbarRightIcons]} source={require('./assets/icons8-notification-32.png')} />
-            </Pressable>
-            <View></View>
-            <Pressable>
-                <Image style={[dashboardHeaderStyles.mainNavbarIcon, dashboardHeaderStyles.imageGap, dashboardHeaderStyles.mainNavbarRightIcons]} source={require('./assets/icons8-arrow-down-48.png')} />
-            </Pressable>
         </View>
     );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   Button,
@@ -31,6 +31,7 @@ function Register({navigation}: {navigation:any}): JSX.Element {
   const [status, setStatus] = React.useState('');
   const [department, setDepartment] = React.useState('');
   const [course, setCourse] = React.useState('');
+  const [courseChoices, setCourseChoices] = useState([] as { label: string, value: string}[]);
 
   const [statusOpen, setStatusOpen] = React.useState(false);
   const [depOpen, setDepOpen] = React.useState(false);
@@ -65,11 +66,48 @@ function Register({navigation}: {navigation:any}): JSX.Element {
     { label: 'CHS', value: 'CHS' },
   ];
 
-  const course_choices = [
-    { label: 'Option 1', value: 'option1' },
-    { label: 'Option 2', value: 'option2' },
-    { label: 'Option 3', value: 'option3' },
-  ];
+
+  function modifyCourseChoices(){
+    let course_choices = [];
+    
+    switch(department){
+      case 'CCS':
+        course_choices = [
+          { label: 'BSCS', value: 'BSCS' },
+          { label: 'BSIT', value: 'BSIT' },
+          { label: 'BSCE', value: 'BSCE' },
+        ] as { label: string, value: string}[];
+
+        setCourseChoices(course_choices);
+        break;
+
+      case 'COED':
+        course_choices = [
+          { label: 'BEE', value: 'BEE' },
+          { label: 'BSE', value: 'BSE' }
+        ] as { label: string, value: string}[];
+
+        setCourseChoices(course_choices);
+        break;
+
+      case 'CBA':
+        course_choices = [
+          { label: 'BSBA', value: 'BSBA' }
+        ] as { label: string, value: string}[];
+
+        setCourseChoices(course_choices);
+        break;
+
+      case 'CHS':
+        course_choices = [
+          { label: 'BSN', value: 'BSN' },
+          { label: 'BSM', value: 'BSM' }
+        ] as { label: string, value: string}[];
+
+        setCourseChoices(course_choices);
+        break;
+    }
+  }
 
   async function register(){
     const register_data = {
@@ -84,8 +122,8 @@ function Register({navigation}: {navigation:any}): JSX.Element {
     }
 
     try {
-      const response = await fetch('http://192.168.100.99:8000/register', {
-      // const response = await fetch('https://task-up-dycian.onrender.com/register', {
+      // const response = await fetch('http://192.168.100.99:8000/register', {
+      const response = await fetch('https://task-up-dycian.onrender.com/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -170,6 +208,7 @@ function Register({navigation}: {navigation:any}): JSX.Element {
               items={dep_choices}
               setOpen={setDepOpen}
               setValue={setDepartment}
+              onSelectItem={() => modifyCourseChoices()}
               zIndex={101}
             />
           </View>
@@ -180,7 +219,7 @@ function Register({navigation}: {navigation:any}): JSX.Element {
             <DropDownPicker
               open={courseOpen}
               value={course}
-              items={course_choices}
+              items={courseChoices}
               setOpen={setCourseOpen}
               setValue={setCourse}
               zIndex={100}
@@ -189,7 +228,7 @@ function Register({navigation}: {navigation:any}): JSX.Element {
   
           <Pressable style={{ width: '80%'}} onPress={() => register()}>
             <View style={registerStyles.loginButton}>
-              <Text style={registerStyles.loginButtonText}>Sign Up</Text>
+              <Text style={registerStyles.loginButtonText}>Submit</Text>
             </View>
           </Pressable>
           

@@ -81,11 +81,6 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
                 <Text style={{ color: 'black' }}>Calendar</Text>
             </Pressable>
 
-            <Pressable style={sideNavigationStyles.sideNavLink}>
-                <Image style={sideNavigationStyles.icon} source={require('./assets/feedback.png')}/>
-                <Text style={{ color: 'black' }}>Feedback</Text>
-            </Pressable>
-
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('FAQ')}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/question.png')}/>
                 <Text style={{ color: 'black' }}>FAQ</Text>
@@ -94,6 +89,11 @@ function SideNavigation({setSharedState, sharedState, navigation}: any): JSX.Ele
             <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Settings')}>
                 <Image style={sideNavigationStyles.icon} source={require('./assets/settings.png')}/>
                 <Text style={{ color: 'black' }}>Settings</Text>
+            </Pressable>
+
+            <Pressable style={sideNavigationStyles.sideNavLink} onPress={() => navigation.navigate('Login')}>
+                <Image style={sideNavigationStyles.icon} source={require('./assets/logout.png')}/>
+                <Text style={{ color: 'black' }}>Log Out</Text>
             </Pressable>
         </View>
         <Pressable style={sideNavigationStyles.darkBg} onPress={() => closeSideNav()}></Pressable>
