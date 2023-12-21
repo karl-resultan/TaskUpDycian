@@ -39,10 +39,12 @@ import Settings from './Settings';
 import FAQ from './FAQ';
 import AboutUs from './AboutUs';
 import CreateNote from './CreateNote';
+import Selection from './Selection';
 
 import { UserProvider } from './UserContext';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +56,7 @@ function App(): JSX.Element {
           <Stack.Screen name="Welcome" component={Welcome} />
           <Stack.Screen name="BasePage" component={BasePage} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Selection" component={Selection} />
           <Stack.Screen name="Dashboard" component={Dashboard}/>
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="Tasks" component={Tasks} />

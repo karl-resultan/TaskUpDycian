@@ -33,9 +33,9 @@ function ViewCalendar({navigation}: {navigation: any}): JSX.Element {
 
   return (
     <LinearGradient colors={['#00296b', '#00509d']} style={calendarStyles.linearGradient}>
+      <SideNavigation sharedState={sharedState} setSharedState={setSharedState} navigation={navigation}></SideNavigation>
       <View style={calendarStyles.mainContainer}>
         <DashboardHeader sharedState={sharedState} setSharedState={setSharedState}></DashboardHeader>
-        <SideNavigation sharedState={sharedState} setSharedState={setSharedState} navigation={navigation}></SideNavigation>
 
         <Calendar 
           style={{

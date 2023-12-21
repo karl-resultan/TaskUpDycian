@@ -132,11 +132,7 @@ async def get_notes(id: str, db: Session = Depends(get_db)):
 async def create_note(note: Note, db: Session = Depends(get_db)):
     new_note = models.Note()
 
-    to_datetime = note.note_due[:25]
-    date_format = "%m-%d-%Y %H:%M"
-
     new_note.note_title = note.note_title
-    new_note.due_date = datetime.strptime(to_datetime, date_format)
     new_note.note_description = note.note_description
     new_note.note_owner = int(note.note_owner)
 

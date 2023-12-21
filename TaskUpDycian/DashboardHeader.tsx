@@ -31,7 +31,7 @@ function DashboardHeader({sharedState, setSharedState, navigation}: any): JSX.El
             </Pressable>
 
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image style={{ height: 50, width: 50 }} source={require('./assets/school-logo.png')}/>
+                <Image style={{ height: 60, width: 60, marginLeft: 20 }} source={require('./assets/dashboard-icon.png')}/>
                 <Text style={{ color: 'white' }}>Dr. Yanga's Colleges Inc.</Text>
             </View>
         </View>

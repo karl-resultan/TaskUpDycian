@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react';
+import PushNotification from 'react-native-push-notification';
+import Sound from 'react-native-sound';
+
 import { useState } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -25,7 +28,6 @@ import DashboardHeader from './DashboardHeader';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useUser } from './UserContext';
 
-
 function Tasks({navigation}: {navigation: any}): JSX.Element {
   const [sharedState, setSharedState] = useState(false);
   const [showAddTask, setShowAddTask] = useState(false);
@@ -44,6 +46,11 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const addTaskDisplay = showAddTask ? {'display': 'block'} : {'display': 'none'};
+  const [pressedButton, setPressedButton] = useState('');
+
+  const textStyles = (textNum: any) => ({
+    color: pressedButton === `button${textNum}` ? '#3498db' : '#000',
+  });
 
   function openAddTaskSection(){
     setShowAddTask(true);
@@ -111,6 +118,16 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
           
           setActivities(responseData.activities);
           setExams(responseData.exams);
+
+          // activities.forEach((activity) => {
+          //   console.log(activity.due_date);
+          //   scheduleAlarm();
+          // });
+
+          // exams.forEach((exam) => {
+          //   console.log(exam.due_date);
+          //   scheduleAlarm();
+          // });
         }
       } else {
         console.error('Request failed with status:', response.status);
@@ -153,15 +170,29 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
     }
   }
 
+  const scheduleAlarm = () => {
+    PushNotification.localNotificationSchedule({
+      channelId: 'channel_id',
+      title: 'My Notification',
+      message: 'This is a local notification',
+      date: new Date(Date.now() + 10 * 1000),
+      userInfo: {},
+      playSound: true,
+      soundName: 'default',
+      vibrate: true,
+      vibration: 300,
+    });
+  };
+
   useEffect(() => {
     getTasks();
   }, [])
 
   return (
     <LinearGradient colors={['#00296b', '#00509d']} style={tasksStyles.linearGradient}>
+      <SideNavigation sharedState={sharedState} setSharedState={setSharedState} navigation={navigation}></SideNavigation>
       <View style={tasksStyles.mainContainer}>
         <DashboardHeader sharedState={sharedState} setSharedState={setSharedState}></DashboardHeader>
-        <SideNavigation sharedState={sharedState} setSharedState={setSharedState} navigation={navigation}></SideNavigation>
 
         <View style={tasksStyles.mainViewContainer}>
           <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 25, marginTop: '5%'}}>TASK</Text>
@@ -262,12 +293,12 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
 
           <View style={tasksStyles.addTaskSectionBottom}>
             <View style={tasksStyles.bottomSectionElems}>
-              <Pressable onPress={() => { setTaskType('Activities'); console.log('Set to activities')}}>
-                <Text style={{ color: 'black' }}>Activities</Text>
+              <Pressable onPress={() => { setPressedButton('button1'); setTaskType('Activities'); console.log('Set to activities')}}>
+                <Text style={textStyles(1)}>Activities</Text>
               </Pressable>
 
-              <Pressable onPress={() => { setTaskType('Exams'); console.log('Set to exams')}}>
-                <Text style={{ color: 'black' }}>Exams</Text>
+              <Pressable onPress={() => { setPressedButton('button2'); setTaskType('Exams'); console.log('Set to exams')}}>
+                <Text style={textStyles(2)}>Exams</Text>
               </Pressable>
             </View>
 
@@ -398,9 +429,10 @@ const tasksStyles = StyleSheet.create({
     addTaskSection: {
       position: 'absolute',
       alignSelf: 'center',
-      marginTop: '30%',
+      marginTop: '20%',
       width: '90%',
-      height: '60%',
+      height: '75%',
+      overflow: 'scroll',
       padding: '5%',
       backgroundColor: '#F4F5DB',
       alignItems: 'center',
@@ -411,7 +443,7 @@ const tasksStyles = StyleSheet.create({
     },
 
     taskSectionTextWall: {
-      height: '50%',
+      height: '30%',
       width: '100%',
       paddingTop: 10,
       paddingLeft: 10,

@@ -91,7 +91,6 @@ function Profile({navigation}: {navigation: any}): JSX.Element {
           <Text style={profileStyles.profileText}>College Department: {department}</Text>
           <Text style={profileStyles.profileText}>School: {school}</Text>
 
-          <Text style={profileStyles.sectionHeading}>Contact Information</Text>
           <Text style={profileStyles.profileText}>Email: {email}</Text>
           <Text style={profileStyles.profileText}>Phone: {contact}</Text>
         </View>

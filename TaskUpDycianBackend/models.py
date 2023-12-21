@@ -27,7 +27,6 @@ class Note(Base):
     id = Column(Integer, primary_key=True, index=True)
     note_title = Column(String)
     note_description = Column(String)
-    due_date = Column(DateTime)
     note_owner = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="notes")
