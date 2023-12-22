@@ -40,11 +40,11 @@ import FAQ from './FAQ';
 import AboutUs from './AboutUs';
 import CreateNote from './CreateNote';
 import Selection from './Selection';
+import NoteDetails from './NoteDetails';
 
 import { UserProvider } from './UserContext';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
 
 const Stack = createNativeStackNavigator();
 
@@ -68,6 +68,7 @@ function App(): JSX.Element {
           <Stack.Screen name="FAQ" component={FAQ} />
           <Stack.Screen name="AboutUs" component={AboutUs} />
           <Stack.Screen name="CreateNote" component={CreateNote} />
+          <Stack.Screen name="NoteDetails" component={NoteDetails} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>

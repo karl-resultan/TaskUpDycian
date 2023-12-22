@@ -117,12 +117,12 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
                 <Text style={dashboardStyles.note_due}>{item.due_date}</Text>
                 
                 <View style={{ flexDirection: 'row' }}>
-                  <Pressable style={{ marginRight: 15 }}>
+                  <Pressable style={{ marginRight: 15 }} onPress={() => navigation.navigate('NoteDetails', {
+                    noteId: item.id,
+                    noteTitle: item.note_title,
+                    noteDescription: item.note_description
+                  })}>
                     <Text>Edit</Text>
-                  </Pressable>
-
-                  <Pressable style={{ marginRight: 15 }} onPress={() => deleteNote(item.id)}>
-                    <Text>Delete</Text>
                   </Pressable>
                 </View>
               </View>

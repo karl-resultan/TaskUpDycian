@@ -42,6 +42,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
   // DYNAMIC CONTENT LOADING
   const [activities, setActivities] = useState([]);
   const [exams, setExams] = useState([]);
+  const [completed, setCompleted] = useState([]);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -118,7 +119,9 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
           
           setActivities(responseData.activities);
           setExams(responseData.exams);
-
+          setCompleted(responseData.completed);
+          
+          console.log(completed);
           // activities.forEach((activity) => {
           //   console.log(activity.due_date);
           //   scheduleAlarm();
@@ -161,6 +164,7 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
           console.log('Task successfully marked complete.');
           setActivities(responseData.activities);
           setExams(responseData.exams);
+          setCompleted(responseData.completed);
         }
       } else {
         console.error('Request failed with status:', response.status);
@@ -209,71 +213,97 @@ function Tasks({navigation}: {navigation: any}): JSX.Element {
             <Pressable style={tasksStyles.taskCategory} onPress={() => setSelectedCategory('Exams')}>
               <Text style={{ color: 'black' }}>Exams</Text>
             </Pressable>
-          </View>
 
-          <View style={tasksStyles.tasksContainer}>
-            <View style={
-              selectedCategory === 'Activities' ? tasksStyles.maxSection : 
-              selectedCategory === 'Exams' ? tasksStyles.hideSection :
-              selectedCategory === 'All' ? tasksStyles.section : {}
-            }>
-              <Text style={tasksStyles.sectionHeader}>Activities</Text>
-
-              <ScrollView contentContainerStyle={{ marginTop: 20, paddingBottom: 30, width: '95%', alignItems: 'center' }}>
-                {activities.map((activity) => (
-                  <View key={activity.id} style={tasksStyles.task}>
-                    <Text style={{ color: 'black', fontSize: 20 }}>{activity.task_description}</Text>
-                    <Text style={{ color: 'black' }}>Due Date: {activity.due_date}</Text>
-
-                    {!activity.is_completed && ( 
-                      <Pressable onPress={() => {markComplete(activity.id)}}>
-                        <Text style={{ color: 'black' }}>Mark as Complete</Text>
-                      </Pressable>
-                    )}
-
-                    {activity.is_completed && (
-                      <Text>Completed</Text>
-                    )}
-                  </View>
-                ))}
-              </ScrollView>              
-
-              {/* <Text>No activities as of now.</Text> */}
-            </View>
-
-            <View style={
-              selectedCategory === 'Activities' ? tasksStyles.hideSection : 
-              selectedCategory === 'Exams' ? tasksStyles.maxSection :
-              selectedCategory === 'All' ? tasksStyles.section : {}
-            }>
-              <Text style={tasksStyles.sectionHeader}>Exams</Text>
-              
-              <ScrollView contentContainerStyle={{ marginTop: 20, paddingBottom: 30, width: '95%', alignItems: 'center' }}>
-                {exams.map((exam) => (
-                  <View key={exam.id} style={tasksStyles.task}>
-                    <Text style={{ color: 'black', fontSize: 20 }}>{exam.task_description}</Text>
-                    <Text style={{ color: 'black' }}>Due Date: {exam.due_date}</Text>
-
-                    {!exam.is_completed && (
-                      <Pressable onPress={() => {markComplete(exam.id)}}>
-                        <Text style={{ color: 'black' }}>Mark as Complete</Text>
-                      </Pressable>
-                    )}
-
-                    {exam.is_completed && (
-                      <Text>Completed</Text>
-                    )}
-                  </View>
-                ))}
-              </ScrollView>   
-            </View>
-
-            <Pressable onPress={() => openAddTaskSection()}>
-              <View style={tasksStyles.addTaskButton}>
-                <Text style={{fontWeight: 'bold', fontSize: 22}}>+</Text>
-              </View>
+            <Pressable style={tasksStyles.taskCategory} onPress={() => setSelectedCategory('Completed')}>
+              <Text style={{ color: 'black' }}>Completed</Text>
             </Pressable>
           </View>
+
+          <ScrollView contentContainerStyle={{ height: 350, marginTop: 20, paddingBottom: 30, width: '100%', alignItems: 'center' }}>
+            <View style={
+                selectedCategory === 'Activities' ? tasksStyles.maxSection : 
+                selectedCategory === 'Exams' ? tasksStyles.hideSection :
+                selectedCategory === 'Completed' ? tasksStyles.hideSection :
+                selectedCategory === 'All' ? tasksStyles.section : {}
+              }>
+                <Text style={tasksStyles.sectionHeader}>Activities</Text>
+
+                <ScrollView contentContainerStyle={{ marginTop: 20, paddingBottom: 30, width: '95%', alignItems: 'center' }}>
+                  {activities.map((activity) => (
+                    <View key={activity.id} style={tasksStyles.task}>
+                      <Text style={{ color: 'black', fontSize: 20 }}>{activity.task_description}</Text>
+                      <Text style={{ color: 'black' }}>Due Date: {activity.due_date}</Text>
+
+                      {!activity.is_completed && ( 
+                        <Pressable onPress={() => {markComplete(activity.id)}}>
+                          <Text style={{ color: 'black' }}>Mark as Complete</Text>
+                        </Pressable>
+                      )}
+
+                      {activity.is_completed && (
+                        <Text>Completed</Text>
+                      )}
+                    </View>
+                  ))}
+                </ScrollView>              
+
+                {/* <Text>No activities as of now.</Text> */}
+              </View>
+
+              <View style={
+                selectedCategory === 'Activities' ? tasksStyles.hideSection : 
+                selectedCategory === 'Exams' ? tasksStyles.maxSection :
+                selectedCategory === 'Completed' ? tasksStyles.hideSection :
+                selectedCategory === 'All' ? tasksStyles.section : {}
+              }>
+                <Text style={tasksStyles.sectionHeader}>Exams</Text>
+                
+                <ScrollView contentContainerStyle={{ marginTop: 20, paddingBottom: 30, width: '95%', alignItems: 'center' }}>
+                  {exams.map((exam) => (
+                    <View key={exam.id} style={tasksStyles.task}>
+                      <Text style={{ color: 'black', fontSize: 20 }}>{exam.task_description}</Text>
+                      <Text style={{ color: 'black' }}>Due Date: {exam.due_date}</Text>
+
+                      {!exam.is_completed && (
+                        <Pressable onPress={() => {markComplete(exam.id)}}>
+                          <Text style={{ color: 'black' }}>Mark as Complete</Text>
+                        </Pressable>
+                      )}
+
+                      {exam.is_completed && (
+                        <Text>Completed</Text>
+                      )}
+                    </View>
+                  ))}
+                </ScrollView>   
+              </View>
+
+              <View style={
+                selectedCategory === 'Activities' ? tasksStyles.hideSection : 
+                selectedCategory === 'Exams' ? tasksStyles.hideSection :
+                selectedCategory === 'Completed' ? tasksStyles.maxSection :
+                selectedCategory === 'All' ? tasksStyles.hideSection : {}
+              }>
+                <Text style={tasksStyles.sectionHeader}>Completed Tasks</Text>
+                
+                <ScrollView contentContainerStyle={{ marginTop: 20, paddingBottom: 30, width: '95%', alignItems: 'center' }}>
+                  {completed.map((complete) => (
+                    <View key={complete.id} style={tasksStyles.task}>
+                      <Text style={{ color: 'black', fontSize: 20 }}>{complete.task_description}</Text>
+                      <Text style={{ color: 'black' }}>Due Date: {complete.due_date}</Text>
+
+                      <Text>Completed</Text>
+                    </View>
+                  ))}
+                </ScrollView>   
+              </View>
+          </ScrollView>
+
+          <Pressable onPress={() => openAddTaskSection()}>
+            <View style={tasksStyles.addTaskButton}>
+              <Text style={{fontWeight: 'bold', fontSize: 22}}>+</Text>
+            </View>
+          </Pressable>
         </View>
 
         <View style={[tasksStyles.addTaskSection, addTaskDisplay]}>
@@ -358,15 +388,14 @@ const tasksStyles = StyleSheet.create({
     },
 
     tasksContainer: {
-      height: '72%', 
-      width: '100%',
-      justifyContent: 'center', 
-      alignItems: 'center',
+      height: '60%',
+      maxHeight: '80%',
+      width: '100%'
     },
 
     taskCategory: {
-      margin: '3%',
-      width: '25%',
+      margin: '1.5%',
+      width: '23%',
       height: '30%',
       borderRadius: 100,
       backgroundColor: '#fdc500',
@@ -391,7 +420,7 @@ const tasksStyles = StyleSheet.create({
     },
 
     section: {
-      height: '40%',
+      height: '50%',
       width: '100%',
       marginBottom: '5%',
       backgroundColor: '#D9D9D9',
@@ -423,13 +452,14 @@ const tasksStyles = StyleSheet.create({
       width: 40,
       borderRadius: 150,
       backgroundColor: '#fdc500',
-      alignItems: 'center'
+      alignItems: 'center',
+      alignSelf: 'center'
     },
 
     addTaskSection: {
       position: 'absolute',
       alignSelf: 'center',
-      marginTop: '20%',
+      marginTop: '10%',
       width: '90%',
       height: '75%',
       overflow: 'scroll',

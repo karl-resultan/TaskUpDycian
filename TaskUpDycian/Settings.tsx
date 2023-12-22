@@ -53,11 +53,6 @@ function Settings({navigation}: {navigation: any}): JSX.Element {
             <View>
                 <Text style={settingsStyles.contentSection}>Date and Time</Text>
                 <Pressable style={settingsStyles.settingsButton}>
-                    <Text>Due Date</Text>
-                    <Text>Today</Text>
-                </Pressable>
-
-                <Pressable style={settingsStyles.settingsButton}>
                     <Text>Time Format</Text>
                     <Text>System Default</Text>
                 </Pressable>
@@ -75,14 +70,6 @@ function Settings({navigation}: {navigation: any}): JSX.Element {
 
             <View>
                 <Text style={settingsStyles.contentSection}>About</Text>
-                <Pressable style={settingsStyles.settingsButton}>
-                    <Text>Language</Text>
-                </Pressable>
-
-                <Pressable style={settingsStyles.settingsButton}>
-                    <Text>Feedback</Text>
-                </Pressable>
-
                 <Pressable style={settingsStyles.settingsButton}>
                     <Text>Privacy Policy</Text>
                 </Pressable>
@@ -123,6 +110,8 @@ const settingsStyles = StyleSheet.create({
     mainContent: {
         height: '90%',
         width: '100%',
+        justifyContent: 'center',
+        borderRadius: 10,
         paddingLeft: '10%',
         marginTop: '3%',
         backgroundColor: 'white'

@@ -173,7 +173,7 @@ function TaskOverview({navigation}: {navigation: any}): JSX.Element {
             </View>
 
             <View style={[taskOverviewStyles.centerSection, taskOverviewStyles.tasksByCategory]}>
-                <Text>Pending Tasks in Categories</Text>
+                <Text>Pending Tasks</Text>
 
                 <View style={taskOverviewStyles.chartContainer}>
                   <PieChart

@@ -142,7 +142,24 @@ async def create_note(note: Note, db: Session = Depends(get_db)):
     return {'response': 'note created.'}
     # except:
     #     return {'response': 'failed to create note.'}
-    
+
+
+@app.post('/update_note')
+async def update_note(note_id: str, note_title: str, note_description: str, db: Session = Depends(get_db)):
+    try:
+        retrieved_note = db.query(models.Note).filter(models.Note.id == note_id.id).first()
+
+        if retrieved_note:
+            retrieved_note.update({
+                'note_title': note_title,
+                'note_description': note_description
+            })
+            db.commit()
+        return {'response': 'note updated.'}
+    except:
+        return {'response': 'failed to update note.'}
+
+
 
 @app.post('/delete_note')
 async def delete_note(note_id: NoteID, db: Session = Depends(get_db)):
@@ -165,16 +182,20 @@ async def get_tasks(id: str, db: Session = Depends(get_db)):
 
         all_activities = []
         all_exams = []
+        completed = []
 
         for task in all_tasks:
             task.due_date = task.due_date.strftime("%Y-%m-%d %H:%M")
 
-            if task.task_type == 'Activities':
-                all_activities.append(task)
+            if task.is_completed:
+                completed.append(task)
             else:
-                all_exams.append(task)
+                if task.task_type == 'Activities':
+                    all_activities.append(task)
+                else:
+                    all_exams.append(task)
 
-        return {'response': 'tasks retrieved', 'activities': all_activities, 'exams': all_exams}
+        return {'response': 'tasks retrieved', 'activities': all_activities, 'exams': all_exams, 'completed': completed}
     except:
         return {'response': 'failed to retrieve tasks.'}
     
@@ -269,15 +290,19 @@ async def mark_task_complete(task: CompletionRequest, db: Session = Depends(get_
 
         all_activities = []
         all_exams = []
+        completed = []
 
         for task in all_tasks:
             task.due_date = task.due_date.strftime("%Y-%m-%d %H:%M")
 
-            if task.task_type == 'Activities':
-                all_activities.append(task)
+            if task.is_completed:
+                completed.append(task)
             else:
-                all_exams.append(task)
+                if task.task_type == 'Activities':
+                    all_activities.append(task)
+                else:
+                    all_exams.append(task)
 
-        return {'response': 'task completed.', 'activities': all_activities, 'exams': all_exams}
+        return {'response': 'task completed.', 'activities': all_activities, 'exams': all_exams, 'completed': completed}
     except:
         return {'response': 'failed to mark task as completed.'}
