@@ -40,6 +40,7 @@ function NoteDetails({navigation}: {navigation: any}): JSX.Element {
     const [sharedState, setSharedState] = useState(false);
     const [currentNoteTitle, setCurrentNoteTitle] = useState(noteTitle);
     const [currentNoteDescription, setCurrentNoteDescription] = useState(noteDescription);
+    const [attachment, setAttachment] = useState('No Attachment');
     const { userId, setUser } = useUser();
 
     async function deleteNote(){
@@ -74,7 +75,6 @@ function NoteDetails({navigation}: {navigation: any}): JSX.Element {
 
     async function updateNote(){
       try {
-        // const response = await fetch('http://192.168.100.99:8000/delete_note', {
         const response = await fetch(`https://task-up-dycian.onrender.com/update_note?note_id=${noteId}&note_title=${currentNoteTitle}&note_description=${currentNoteDescription}`, {
           method: 'POST',
           headers: {
@@ -97,8 +97,38 @@ function NoteDetails({navigation}: {navigation: any}): JSX.Element {
       }
     }
 
-    useEffect(() => {
+    async function retrieveAttachments(){
+      try {
+        // const response = await fetch(`http://192.168.100.99:8000/get_notes?id=${userId}`, {
+        const response = await fetch(`https://task-up-dycian.onrender.com/get_note_attachments?note_id=${noteId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+  
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log(responseData.response);
+  
+          if (responseData.response == 'retrieval complete.'){
+            console.log('All attachments');
+            console.log(responseData.attachments);
 
+            if (responseData.attachments.length > 0){
+              setAttachment(responseData.attachments[0].content_type.replace('/opt/render/project/src/uploads/', ''));
+            }
+          }
+        } else {
+          console.error('Request failed with status:', response.status);
+        }
+      } catch (error) {
+        console.error('Error during the request:', error);
+      }
+    }
+
+    useEffect(() => {
+      retrieveAttachments();
     }, []);
 
     return (
@@ -123,6 +153,7 @@ function NoteDetails({navigation}: {navigation: any}): JSX.Element {
         <TextInput defaultValue={noteTitle} onChangeText={desc => setCurrentNoteDescription(desc)} value={currentNoteDescription} style={noteDetailStyles.inputField} placeholder='Enter note description...'/>
 
         <Text style={noteDetailStyles.sectionTitle}>Attachment(s)</Text>
+        <Text style={noteDetailStyles.attachmentLink}>{attachment}</Text>
 
         <Pressable style={noteDetailStyles.saveButton} onPress={() => updateNote()}>
             <Text>Save Changes</Text>
@@ -161,6 +192,11 @@ const noteDetailStyles = StyleSheet.create({
         fontSize: 15,
         color: 'white',
         fontWeight: 'bold'
+    },
+
+    attachmentLink: {
+      marginTop: 30,
+      color: 'white'
     },
 
     inputField: {

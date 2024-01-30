@@ -34,11 +34,10 @@ class Note(Base):
 
 
 class Attachment(Base):
-    __attachments__ = 'attachments'
+    __tablename__ = 'attachments'
 
     id = Column(Integer, primary_key=True, index=True)
     content_type = Column(String)
-    file_data = Column(LargeBinary)
     bind_note = Column(Integer, ForeignKey('notes.id'))
 
     note_bound = relationship('Note', back_populates="attachments")

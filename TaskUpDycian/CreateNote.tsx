@@ -50,32 +50,46 @@ function CreateNote({navigation}: {navigation: any}): JSX.Element {
 
 
     async function chooseFile(){
-    try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.allFiles]
-      });
-
-      setSingleFile(res);
-    } 
-    catch (err) {
-      setSingleFile(null);
+      try {
+        const res = await DocumentPicker.pick({
+          type: [DocumentPicker.types.allFiles]
+        });
+        
+        console.log('Setting file for upload...');
+        setSingleFile(res);
+      } 
+      catch (err) {
+        setSingleFile(null);
+        
+      }
     }
-    }
 
-    async function uploadImage(){
+    async function uploadFile(note_id: number){
+      console.log('printing file id...');
+      console.log(note_id);
+
       if (singleFile != null) {
         const fileToUpload = singleFile;
+
         const data = new FormData();
-        data.append('name', 'Image Upload');
-        data.append('file_attachment', fileToUpload);
+        data.append('file', fileToUpload[0]);
+
+        console.log(fileToUpload);
+        console.log('File logs...');
+        console.log(fileToUpload[0].uri);
+        console.log(fileToUpload[0].name);
+        console.log(fileToUpload[0].type);
+        console.log(data);
 
         let res = await fetch(
-          'http://localhost/upload.php',
+          `https://task-up-dycian.onrender.com/upload_file/${note_id}`,
+          // `http://192.168.100.99:8000/upload_file/`,
           {
-            method: 'post',
+            method: 'POST',
             body: data,
             headers: {
-              'Content-Type': 'multipart/form-data; ',
+              Accept: 'application/json',
+              'Content-Type': 'multipart/form-data',
             },
           }
         );
@@ -115,6 +129,10 @@ function CreateNote({navigation}: {navigation: any}): JSX.Element {
           console.log(responseData.response);
   
           if (responseData.response == 'note created.'){
+            console.log('printing id...');
+            console.log(responseData.note_id);
+
+            uploadFile(responseData.note_id);
             setNoteDetails('');
             setNoteTitle('');
           }
@@ -159,7 +177,7 @@ function CreateNote({navigation}: {navigation: any}): JSX.Element {
                 <View style={noteCreationStyles.sectionDivider}></View>
             </Pressable>
 
-            <Pressable style={noteCreationStyles.createNoteButton} onPress={() => {sendNoteData(), navigation.navigate('Dashboard')}}>
+            <Pressable style={noteCreationStyles.createNoteButton} onPress={async () => { uploadFile(), sendNoteData(), navigation.navigate('Dashboard') }}>
                 <Text style={{ fontWeight: 'bold' }}>Create Note</Text>
             </Pressable>
         </View>

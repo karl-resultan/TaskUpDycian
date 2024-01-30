@@ -215,7 +215,7 @@ function Register({navigation}: {navigation:any}): JSX.Element {
   
           
           <View style={{ width: '80%'}}>
-            <Text style={registerStyles.inputFieldText}>Course</Text>
+            <Text style={registerStyles.inputFieldText}>Program</Text>
             <DropDownPicker
               open={courseOpen}
               value={course}

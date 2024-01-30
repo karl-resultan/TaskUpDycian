@@ -113,8 +113,8 @@ function Dashboard({navigation}: {navigation: any}): JSX.Element {
           <ScrollView contentContainerStyle={{ paddingBottom: 70, width: 350, alignItems: 'center' }}>
             {notes.map((item) => (
               <View key={item.id} style={dashboardStyles.note}>
-                <Text style={dashboardStyles.noteTitle}>{item.note_title}</Text>
-                <Text style={dashboardStyles.note_due}>{item.due_date}</Text>
+                <Text style={dashboardStyles.noteTitle}>{ item.note_title }</Text>
+                <Text style={dashboardStyles.note_due}>{ item.note_description.substring(0, 30) }</Text>
                 
                 <View style={{ flexDirection: 'row' }}>
                   <Pressable style={{ marginRight: 15 }} onPress={() => navigation.navigate('NoteDetails', {
@@ -191,7 +191,8 @@ const dashboardStyles = StyleSheet.create({
 
     note_due: {
       fontSize: 13,
-      marginBottom: 15
+      marginBottom: 15,
+      color: 'black'
     },
 
     note: {
